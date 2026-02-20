@@ -3,9 +3,15 @@
 <!--Wrapper Start-->  
 <div class="ct_wrapper">
 	
-<?php include "headerwrap.php" ?> 
+<?php include "headerwrap.php"; ?> 
 
-<?php include "navigationwrap.php" ?> 
+<?php 
+
+include "navigationwrap.php" ;
+
+include "extravariables.php" ;
+
+?> 
         
             </header>
     <!--Header Wrap End-->

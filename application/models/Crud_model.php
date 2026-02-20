@@ -17,7 +17,37 @@ class Crud_model extends CI_Model {
         return $row[$field];
     }
 
+    function save_into_school_website_table_model(){
 
+        $data['description']    =   $this->input->post('about_us');
+        $this->db->where('type', 'about_us');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('video_link');
+        $this->db->where('type', 'video_link');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('mission');
+        $this->db->where('type', 'mission');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('vision');
+        $this->db->where('type', 'vision');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('testimony_message');
+        $this->db->where('type', 'testimony_message');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('goal');
+        $this->db->where('type', 'goal');
+        $this->db->update('website_settings', $data);
+
+        $data['description']    =   $this->input->post('map_code');
+        $this->db->where('type', 'map_code');
+        $this->db->update('website_settings', $data);
+        
+    }
 
      function get_image_url($type = '', $id = '') {
         if (file_exists('uploads/' . $type . '_image/' . $id . '.jpg'))

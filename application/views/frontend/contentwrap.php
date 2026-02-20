@@ -19,7 +19,7 @@
                             <div class="get_started_video">
                                 <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=552%C3%97476&w=552&h=476" alt="">
                                 <div class="get_video_icon">
-                                    <a data-rel="prettyPhoto" href="http://www.youtube.com/watch?v=kh29_SERH0Y?rel=0"><i class="fa fa-play"></i></a>
+                                    <a data-rel="prettyPhoto" href="<?php echo $website_video_link; ?>"><i class="fa fa-play"></i></a>
                                     <span>Watch The Video</span>
                                 </div>
                             </div>
@@ -35,7 +35,8 @@
                             </div>
                             <div class="get_icon_des">
                             	<h5>Our Mission</h5>
-                                <p>Aenean commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor sit amet, consec tetuer adipis elit, aliquam eget nibh etlibura.</p>
+
+                                <p><?php echo $website_mission; ?> </p>
                                 <a href="#">View More <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -47,7 +48,7 @@
                             </div>
                             <div class="get_icon_des">
                             	<h5>Our Vision</h5>
-                                <p>Aenean commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor sit amet, consec tetuer adipis elit, aliquam eget nibh etlibura.</p>
+                                <p> <?php echo $website_vision; ?> </p>
                                 <a href="#">View More <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -59,7 +60,7 @@
                             </div>
                             <div class="get_icon_des">
                             	<h5>Our Goal</h5>
-                                <p>Aenean commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor sit amet, consec tetuer adipis elit, aliquam eget nibh etlibura.</p>
+                                <p> <?php echo $website_goal;  ?> </p>
                                 <a href="#">View More <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>

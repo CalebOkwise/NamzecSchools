@@ -1585,7 +1585,9 @@ class Admin extends CI_Controller {
     function websiteSetting($param1 = null, $param2 = null, $param3 = null){
 
     if ($param1 == 'save_generalSetting'){
-        $this->crud_model->save_into_school_website_tabel_model();
+        $this->crud_model->save_into_school_website_table_model();
+        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        redirect(base_url(). 'admin/websiteSetting', 'refresh');
     }
         $page_data['page_name']     = 'websiteSetting';
         $page_data['page_title']    = get_phrase('Website Settings');
