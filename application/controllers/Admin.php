@@ -1580,4 +1580,16 @@ class Admin extends CI_Controller {
         redirect(base_url(). 'admin/newAdministrator', 'refresh');
     }
 
+    /***********  The function that loads the websiteSetting view page for admins  ***********************/
+
+    function websiteSetting($param1 = null, $param2 = null, $param3 = null){
+
+    if ($param1 == 'save_generalSetting'){
+        $this->crud_model->save_into_school_website_tabel_model();
+    }
+        $page_data['page_name']     = 'websiteSetting';
+        $page_data['page_title']    = get_phrase('Website Settings');
+        $this->load->view('backend/index', $page_data);
+    }
+
 }

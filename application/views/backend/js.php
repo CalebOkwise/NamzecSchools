@@ -23,6 +23,22 @@
         })
     });
     </script>
+
+/*The Javascript below is for the website settings, admin views page */
+
+        <script src="<?php echo base_url(); ?>optimum/js/cbpFWTabs.js"></script>
+    <script type="text/javascript">
+    (function() {
+
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+
+    })();
+</script>
+
+/* Ends here */
+
 	<?php endif; ?>
 	
 	<script type="text/javascript">

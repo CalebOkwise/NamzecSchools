@@ -855,6 +855,13 @@
                              <span class="hide-menu"><?php echo get_phrase('Payment Settings'); ?></span>
                         </a>
                     </li>
+
+                    <li class="<?php if ($page_name == 'websiteSetting') echo 'active'; ?> ">
+                        <a href="<?php echo base_url(); ?>admin/websiteSetting">
+                        <i class="fa fa-angle-double-right p-r-10"></i>
+                             <span class="hide-menu"><?php echo get_phrase('Website Settings'); ?></span>
+                        </a>
+                    </li>
      
                  </ul>
                 </li>

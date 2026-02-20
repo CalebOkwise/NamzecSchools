@@ -13,12 +13,21 @@
                         <li><a href="<?php echo base_url()?>website/teachers">Teachers<span>OUR TEACHERS</span></a></li>
 						<li><a href="<?php echo base_url()?>website/contact">Contact<span>Contact Us</span></a></li>
 						<li><a href="<?php echo base_url()?>">Login<span>ALL USERS LOGIN</span></a></li>
-						<li><a href="#">Language<span>SELECT LANGUAGE</span></a>
+						
+                        <!--
+
+                        ****** THIS HERE IS SUPPOSED TO BE THE TAB FOR CHANGING LANGUAGE
+                        BUT I HAVEN'T BEEN USING GET PHRASE SO MUCH LIKE THAT THROUGH THE VIEWS SO...
+
+                        PERHARPS MIGHT WAIT UNTIL A CLIENT NEEDS IT.
+
+                        <li><a href="#">Language<span>SELECT LANGUAGE</span></a>
                         	<ul>
                             	<li><a href="">English</a></li>
                                 <li><a href="">Arabic</a></li>
                             </ul>
                         </li>
+                        -->
 
                     </ul>
                 </nav>
@@ -31,12 +40,22 @@
                         <li class="menu-item kode-parent-menu"><a href="<?php echo base_url()?>website/teachers">Teachers</a></li>
                         <li class="menu-item kode-parent-menu"><a href="<?php echo base_url()?>website/contact">Contact Us</a></li>
 						<li class="menu-item kode-parent-menu"><a href="<?php echo base_url()?>">Login</a></li>
-						 <li class="menu-item kode-parent-menu"><a href="#">Language</a>
+						
+                        <!-- 
+
+                        ****** THIS HERE IS SUPPOSED TO BE THE TAB FOR CHANGING LANGUAGE
+                        BUT I HAVEN'T BEEN USING GET PHRASE SO MUCH LIKE THAT THROUGH THE VIEWS SO...
+
+                        PERHARPS MIGHT WAIT UNTIL A CLIENT NEEDS IT.
+
+                        <li class="menu-item kode-parent-menu"><a href="#">Language</a>
                             <ul class="dl-submenu">
                                 <li><a href="">English</a></li>
                                 <li><a href="">Arabic</a></li>
                             </ul>
                         </li>
+                            
+                        -->
 
                     </ul>
                 </div>
