@@ -81,13 +81,30 @@ which is later references to in this page
 
                                 <?php echo form_close();?>
                                         </section>
-                                        <section id="section-linetriangle-2">
-                                            <h2>Tabbing 2</h2>
-                                        
+
+                                        <!-- THE CODE FOR THE BANNER IMAGE SECTION begins here -->
+                    <section id="section-linetriangle-2">
+                                            
+                    <div class="form-group">
+                 	<label class="col-md-12" for="example-text"><?php echo get_phrase('select_banner');?></label>
+                    <div class="col-sm-12">
+                    <input type="file" name="file_name" class="dropify" required>
+                    <p style="color:red; text-decoration:italics;">Ensure you upload banner image with dimensions 1920 X 623 pixels</p>
+                    
+                </div></div>
+
+                <div class="form-group">
+                 	<label class="col-md-12" for="example-text"><?php echo get_phrase('Banner Text');?></label>
+                    <div class="col-sm-12">
+                                    <textarea class="form-control" name="map_code"><?php echo $website_map_code; ?></textarea>
+                                </div>
+                            </div>
+
                                         
                                         
                                         
                                         </section>
+                <!-- THE CODE FOR THE BANNER IMAGE SECTION ends here -->
                                         <section id="section-linetriangle-3">
                                             <h2>Tabbing 3</h2></section>
                                         <section id="section-linetriangle-4">
