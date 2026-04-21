@@ -414,7 +414,8 @@
         
         <ul class=" nav nav-second-level<?php
         if ($page_name == 'submit_exam' || $page_name == 'grade' ||  $page_name == 'createExamination' || 
-            $page_name == 'examQuestion') echo 'opened active';
+            $page_name == 'examQuestion' || $page_name == 'cbt_dashboard' || $page_name == 'create_exam' || 
+            $page_name == 'add_questions' || $page_name == 'review_publish') echo 'opened active';
         ?>">
                     
     
@@ -436,6 +437,35 @@
                         <a href="<?php echo base_url(); ?>admin/createExamination">
                         <i class="fa fa-angle-double-right p-r-10"></i>
                            <span class="hide-menu"><?php echo get_phrase('Add Examination'); ?></span>
+                        </a>
+                    </li>
+
+                    <!-- CBT Center Submenu Items -->
+                    <li class="<?php if ($page_name == 'cbt_dashboard') echo 'active'; ?> ">
+                        <a href="<?php echo base_url(); ?>admin/cbtDashboard">
+                        <i class="fa fa-angle-double-right p-r-10"></i>
+                           <span class="hide-menu"><?php echo get_phrase('CBT Center'); ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php if ($page_name == 'create_exam') echo 'active'; ?> ">
+                        <a href="<?php echo base_url(); ?>admin/createExam">
+                        <i class="fa fa-angle-double-right p-r-10"></i>
+                           <span class="hide-menu"><?php echo get_phrase('Create Exam'); ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php if ($page_name == 'add_questions') echo 'active'; ?> ">
+                        <a href="<?php echo base_url(); ?>admin/cbt/add_questions">
+                        <i class="fa fa-angle-double-right p-r-10"></i>
+                           <span class="hide-menu"><?php echo get_phrase('Add Questions'); ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php if ($page_name == 'review_publish') echo 'active'; ?> ">
+                        <a href="<?php echo base_url(); ?>admin/cbt/review_publish">
+                        <i class="fa fa-angle-double-right p-r-10"></i>
+                           <span class="hide-menu"><?php echo get_phrase('Review & Publish'); ?></span>
                         </a>
                     </li>
 

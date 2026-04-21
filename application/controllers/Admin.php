@@ -1152,6 +1152,22 @@ class Admin extends CI_Controller {
     }
      /***********  The function below add, update and delete exam question table ends here ***********************/
 
+/***********  The function below manages the cbt module ***********************/
+
+function cbtDashboard(){
+    $page_data['page_name']     = 'cbtDashboard';
+    $page_data['page_title']    = get_phrase('CBT Dashboard');
+    $this->load->view('backend/index', $page_data);
+}
+
+function createExam(){
+    $page_data['page_name']     = 'createExam';
+    $page_data['page_title']    = get_phrase('Create Exam');
+    $this->load->view('backend/index', $page_data);
+}
+
+/***********  The function that manages the cbt module ends here ***********************/
+
 
     /***********  The function below add, update and delete examination table ***********************/
     function createExamination ($param1 = null, $param2 = null, $param3 = null){
