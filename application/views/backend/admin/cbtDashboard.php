@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <i class="fa fa-laptop"></i>&nbsp;&nbsp;<?php echo get_phrase('CBT Center');?>
                 <div class="pull-right">
-                    <a href="<?php echo base_url();?>admin/cbt/create_exam" class="btn btn-success btn-rounded btn-sm">
+                    <a href="<?php echo base_url();?>admin/create_cbtexam" class="btn btn-success btn-rounded btn-sm">
                         <i class="fa fa-plus"></i>&nbsp;<?php echo get_phrase('Create New CBT Exam');?>
                     </a>
                 </div>

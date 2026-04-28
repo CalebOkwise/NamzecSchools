@@ -2,11 +2,11 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <i class="fa fa-plus"></i>&nbsp;&nbsp;<?php echo get_phrase('Create New CBT Exam');?>
+                <i class="fa fa-plus"></i>&nbsp;&nbsp;<?php echo 'Create New CBT Exam';?>
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
-                    <form method="POST" action="<?php echo base_url();?>admin/cbt/save_exam" class="form-horizontal form-groups-bordered validate">
+                    <form method="POST" action="<?php echo base_url(); ?>admin/cbt/save_exam" class="form-horizontal form-groups-bordered validate">
                         
                         <!-- ==================== BASIC INFO SECTION ==================== -->
                         <div class="panel panel-default m-t-20">
@@ -182,20 +182,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        // Initialize select2 dropdowns
-        $('.select2').select2();
 
-        // Add client-side validation for date comparison
-        $('#end_datetime').on('change', function() {
-            var start = new Date($('#start_datetime').val());
-            var end = new Date($(this).val());
-            
-            if (end <= start) {
-                alert('<?php echo get_phrase('End time must be after start time');?>');
-                $(this).val('');
-            }
-        });
-    });
-</script>

@@ -458,6 +458,9 @@
     });
     </script>
 	
+	<!-- Select2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	
 	<script src="<?php echo base_url(); ?>optimum/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
 	<?php if (($this->session->flashdata('flash_message')) != ""): ?>
 	<script type="text/javascript">
@@ -491,6 +494,18 @@
 
         $(".select2").select2();
         $('.selectpicker').selectpicker();
+
+        if ($('#end_datetime').length && $('#start_datetime').length) {
+            $('#end_datetime').on('change', function() {
+                var start = new Date($('#start_datetime').val());
+                var end = new Date($(this).val());
+
+                if (start && end && end <= start) {
+                    alert('<?php echo get_phrase('End time must be after start time');?>');
+                    $(this).val('');
+                }
+            });
+        }
 
         //Bootstrap-TouchSpin
         $(".vertical-spin").TouchSpin({
