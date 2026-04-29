@@ -36,14 +36,14 @@
                                         <select class="form-control select2" 
                                                 id="class_id" 
                                                 name="class_id" 
-                                                required>
+                                                required
+                                                onchange="return get_class_subject(this.value)">
                                             <option value=""><?php echo get_phrase('Select a class');?></option>
-                                            <option value="1">JSS1</option>
-                                            <option value="2">JSS2</option>
-                                            <option value="3">JSS3</option>
-                                            <option value="4">SS1</option>
-                                            <option value="5">SS2</option>
-                                            <option value="6">SS3</option>
+                                            <?php if (!empty($classes)): ?>
+                                                <?php foreach ($classes as $class): ?>
+                                                    <option value="<?php echo $class['class_id']; ?>"><?php echo html_escape($class['name']); ?></option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -53,18 +53,10 @@
                                     <label class="col-md-3 control-label" for="subject_id"><?php echo get_phrase('Subject');?> <span class="text-danger">*</span></label>
                                     <div class="col-md-9">
                                         <select class="form-control select2" 
-                                                id="subject_id" 
+                                                id="subject_selector_holder" 
                                                 name="subject_id" 
                                                 required>
                                             <option value=""><?php echo get_phrase('Select a subject');?></option>
-                                            <option value="1">Mathematics</option>
-                                            <option value="2">English</option>
-                                            <option value="3">Science</option>
-                                            <option value="4">Biology</option>
-                                            <option value="5">Chemistry</option>
-                                            <option value="6">Physics</option>
-                                            <option value="7">History</option>
-                                            <option value="8">Geography</option>
                                         </select>
                                     </div>
                                 </div>
@@ -181,5 +173,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function get_class_subject(class_id){
+        if(class_id === ''){
+            jQuery('#subject_selector_holder').html('<option value=""><?php echo get_phrase('Select a subject');?></option>').trigger('change');
+            return;
+        }
+
+        $.ajax({
+            url: '<?php echo base_url();?>admin/get_class_subject/' + class_id,
+            success: function(response){
+                jQuery('#subject_selector_holder').html('<option value=""><?php echo get_phrase('Select a subject');?></option>' + response).trigger('change');
+            }
+        });
+    }
+</script>
 
 

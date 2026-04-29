@@ -1182,6 +1182,7 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
 function create_cbtexam(){
     $page_data['page_name']     = 'create_cbtexam';
     $page_data['page_title']    = 'Create Exam';
+    $page_data['classes']       = $this->db->select('class_id, name')->from('class')->order_by('name','ASC')->get()->result_array();
     $this->load->view('backend/index', $page_data);
 }
 
