@@ -1160,12 +1160,18 @@ function cbtDashboard(){
     $this->load->view('backend/index', $page_data);
 }
 
+function cbtAddQuestions(){
+        $page_data['page_name']     = 'add_questions';
+        $page_data['page_title']    = get_phrase('Add Questions');
+        $this->load->view('backend/index', $page_data);
+}
+
 function cbt($param1 = null, $param2 = null, $param3 = null){
     if ($param1 == 'save_exam') {
         // Handle save exam
         // For now, just redirect or something
         $this->session->set_flashdata('flash_message', get_phrase('Exam saved successfully'));
-        redirect(base_url(). 'admin/cbtDashboard', 'refresh');
+        redirect(base_url(). 'admin/cbtAddQuestions');
     }
     if ($param1 == 'add_questions') {
         $page_data['page_name']     = 'add_questions';

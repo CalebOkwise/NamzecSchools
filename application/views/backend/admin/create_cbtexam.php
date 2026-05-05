@@ -149,12 +149,14 @@
                         <!-- ==================== ACTION BUTTONS ==================== -->
                         <div class="form-group m-t-20">
                             <div class="col-md-12">
-                                <button type="submit" 
+                            <!--    THERE'S NO POINT SAVING AS DRAFT SINCE EXAM SETTINGS ARE CRUCIAL AND MUST BE FILLED OUT BEFORE ADDING QUESTIONS
+                            <button type="submit" 
                                         class="btn btn-success btn-rounded" 
                                         name="action" 
                                         value="draft">
                                     <i class="fa fa-floppy-o"></i>&nbsp;<?php echo get_phrase('Save as Draft');?>
                                 </button>
+                                                -->
                                 <button type="submit" 
                                         class="btn btn-primary btn-rounded" 
                                         name="action" 
