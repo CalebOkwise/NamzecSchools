@@ -1189,6 +1189,12 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
         $page_data['page_title']    = get_phrase('Review & Publish');
         $this->load->view('backend/index', $page_data);
     }
+
+    if ($param1 == 'review_publish') {
+        $page_data['page_name']     = 'review_publish';
+        $page_data['page_title']    = get_phrase('Review & Publish');
+        $this->load->view('backend/index', $page_data);
+    }
 }
 
 function create_cbtexam(){
