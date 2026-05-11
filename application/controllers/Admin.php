@@ -18,6 +18,7 @@ class Admin extends CI_Controller {
                 $this->load->model('event_model');                      // Load Apllication Model Here
                 $this->load->model('language_model');                      // Load Apllication Model Here
                 $this->load->model('admin_model');                      // Load Apllication Model Here
+                $this->load->model('cbt_exam_model');                   // Load CBT Exam Model Here
     }
 
     /**default functin, redirects to login page if no admin logged in yet***/
@@ -1157,6 +1158,7 @@ class Admin extends CI_Controller {
 function cbtDashboard(){
     $page_data['page_name']     = 'cbtDashboard';
     $page_data['page_title']    = get_phrase('CBT Dashboard');
+    $page_data['cbt_exams']     = $this->cbt_exam_model->get_all_exams_with_details();
     $this->load->view('backend/index', $page_data);
 }
 
@@ -1168,10 +1170,14 @@ function cbtAddQuestions(){
 
 function cbt($param1 = null, $param2 = null, $param3 = null){
     if ($param1 == 'save_exam') {
-        // Handle save exam
-        // For now, just redirect or something
+        // Save the exam and get the exam ID
+        $exam_id = $this->cbt_exam_model->save_exam();
+        
+        // Store the exam ID in session for use on next page
+        $this->session->set_userdata('cbt_exam_id', $exam_id);
+        
         $this->session->set_flashdata('flash_message', get_phrase('Exam saved successfully'));
-        redirect(base_url(). 'admin/cbtAddQuestions');
+        redirect(base_url(). 'admin/cbtAddQuestions', 'refresh');
     }
     if ($param1 == 'add_questions') {
         $page_data['page_name']     = 'add_questions';
