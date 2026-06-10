@@ -1,7 +1,19 @@
+<?php
+$question_count = !empty($questions) ? count($questions) : 0;
+$total_marks = 0;
+foreach ($questions as $question) {
+    $total_marks += (int) $question['marks'];
+}
+$status_class = 'label-default';
+if ($exam['status'] == 'published') {
+    $status_class = 'label-success';
+} elseif ($exam['status'] == 'archived') {
+    $status_class = 'label-danger';
+}
+?>
+
 <div class="row">
     <div class="col-sm-12">
-        
-        <!-- ==================== EXAM SUMMARY SECTION ==================== -->
         <div class="panel panel-info m-b-20">
             <div class="panel-heading">
                 <i class="fa fa-info-circle"></i>&nbsp;&nbsp;<?php echo get_phrase('Exam Summary');?>
@@ -14,15 +26,19 @@
                                 <tbody>
                                     <tr>
                                         <td><strong><?php echo get_phrase('Exam Title');?>:</strong></td>
-                                        <td>Mathematics Final Exam</td>
+                                        <td><?php echo html_escape($exam['title']); ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong><?php echo get_phrase('Class');?>:</strong></td>
-                                        <td>JSS2</td>
+                                        <td><?php echo html_escape($class_name); ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong><?php echo get_phrase('Subject');?>:</strong></td>
-                                        <td>Mathematics</td>
+                                        <td><?php echo html_escape($subject_name); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><?php echo get_phrase('Status');?>:</strong></td>
+                                        <td><span class="label <?php echo $status_class; ?>"><?php echo ucfirst(html_escape($exam['status'])); ?></span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -32,130 +48,139 @@
                                 <tbody>
                                     <tr>
                                         <td><strong><?php echo get_phrase('Duration');?>:</strong></td>
-                                        <td>90 minutes</td>
+                                        <td><?php echo html_escape($exam['duration_minutes']); ?> <?php echo get_phrase('minutes');?></td>
                                     </tr>
                                     <tr>
                                         <td><strong><?php echo get_phrase('Start Time');?>:</strong></td>
-                                        <td>2026-04-25 09:00 AM</td>
+                                        <td><?php echo date('M d, Y h:i A', strtotime($exam['start_at'])); ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong><?php echo get_phrase('End Time');?>:</strong></td>
-                                        <td>2026-04-25 05:00 PM</td>
+                                        <td><?php echo date('M d, Y h:i A', strtotime($exam['end_at'])); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Instructions Display -->
                     <div class="alert alert-info m-t-20" role="alert">
                         <strong><?php echo get_phrase('Instructions for Students');?>:</strong><br>
-                        <p class="m-t-10">
-                            <?php echo get_phrase('This is a comprehensive mathematics examination covering all topics from the first and second terms. You have 90 minutes to complete this examination. Answer all questions to the best of your ability. No cheating or unauthorized assistance is allowed.');?>
-                        </p>
+                        <p class="m-t-10"><?php echo nl2br(html_escape($exam['instructions'])); ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== QUESTIONS COUNT ==================== -->
-        <div class="alert alert-success m-b-20" role="alert">
-            <i class="fa fa-check-circle"></i>&nbsp;
-            <strong><?php echo get_phrase('Total Questions');?>:</strong> 2 <?php echo get_phrase('questions');?>
-        </div>
+        <?php if ($question_count > 0): ?>
+            <div class="alert alert-success m-b-20" role="alert">
+                <i class="fa fa-check-circle"></i>&nbsp;
+                <strong><?php echo get_phrase('Total Questions');?>:</strong> <?php echo $question_count; ?> <?php echo get_phrase('questions');?>
+                &nbsp; | &nbsp;
+                <strong><?php echo get_phrase('Total Marks');?>:</strong> <?php echo $total_marks; ?>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-warning m-b-20" role="alert">
+                <i class="fa fa-warning"></i>&nbsp;
+                <?php echo get_phrase('No questions have been added to this exam yet. Add at least one question before publishing.');?>
+            </div>
+        <?php endif; ?>
 
-        <!-- ==================== QUESTIONS PREVIEW ==================== -->
         <div class="panel panel-warning m-b-20">
             <div class="panel-heading">
                 <i class="fa fa-eye"></i>&nbsp;&nbsp;<?php echo get_phrase('Question Preview');?>
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
                 <div class="panel-body">
+                    <?php if ($question_count > 0): ?>
+                        <?php foreach ($questions as $index => $question): ?>
+                            <div class="question-preview panel panel-default m-b-20">
+                                <div class="panel-heading bg-light">
+                                    <h5 class="m-0">
+                                        <strong><?php echo get_phrase('Question');?> #<?php echo $index + 1; ?></strong>
+                                        - <?php echo ($question['question_type'] == 'mcq') ? get_phrase('Multiple Choice') : get_phrase('Fill in the Blank'); ?>
+                                        <span class="label label-default pull-right"><?php echo (int) $question['marks']; ?> <?php echo get_phrase('marks');?></span>
+                                    </h5>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="text-right m-b-10">
+                                        <form method="POST" action="<?php echo base_url();?>admin/cbt/delete_question/<?php echo $exam_id; ?>/<?php echo $question['id']; ?>" style="display: inline;" onsubmit="return confirm('<?php echo get_phrase('Are you sure you want to delete this question?');?>');">
+                                            <button type="submit" class="btn btn-danger btn-xs btn-rounded">
+                                                <i class="fa fa-trash"></i>&nbsp;<?php echo get_phrase('Delete Question');?>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="form-group">
+                                        <p><strong><?php echo get_phrase('Question');?>:</strong></p>
+                                        <p class="text-muted"><?php echo nl2br(html_escape($question['question_text'])); ?></p>
+                                    </div>
 
-                    <!-- Question 1 Preview -->
-                    <div class="question-preview panel panel-default m-b-20">
-                        <div class="panel-heading bg-light">
-                            <h5 class="m-0"><strong><?php echo get_phrase('Question #1');?></strong> - <?php echo get_phrase('Multiple Choice');?></h5>
-                        </div>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <p><strong><?php echo get_phrase('Question');?>:</strong></p>
-                                <p class="text-muted">
-                                    <?php echo get_phrase('What is the value of 15 × 12?');?>
-                                </p>
+                                    <?php if ($question['question_type'] == 'mcq'): ?>
+                                        <div class="form-group">
+                                            <p><strong><?php echo get_phrase('Options');?>:</strong></p>
+                                            <ul class="list-unstyled">
+                                                <?php foreach ($question['options'] as $option): ?>
+                                                    <li>
+                                                        <strong><?php echo html_escape($option['label']); ?>.</strong>
+                                                        <?php echo html_escape($option['option_text']); ?>
+                                                        <?php if ($option['is_correct']): ?>
+                                                            <span class="label label-info"><?php echo get_phrase('Correct');?></span>
+                                                        <?php endif; ?>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="form-group">
+                                            <span class="label label-info">
+                                                <?php echo get_phrase('Correct Answer');?>:
+                                                <?php echo !empty($question['answer']) ? html_escape($question['answer']['correct_answer']) : get_phrase('Not set'); ?>
+                                            </span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <p><strong><?php echo get_phrase('Options');?>:</strong></p>
-                                <ul class="list-unstyled">
-                                    <li><strong>A.</strong> 150</li>
-                                    <li><strong>B.</strong> 160</li>
-                                    <li><strong>C.</strong> 180</li>
-                                    <li><strong>D.</strong> 200</li>
-                                </ul>
-                            </div>
-
-                            <div class="form-group">
-                                <span class="label label-info"><?php echo get_phrase('Correct Answer');?>: C</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Question 2 Preview -->
-                    <div class="question-preview panel panel-default m-b-20">
-                        <div class="panel-heading bg-light">
-                            <h5 class="m-0"><strong><?php echo get_phrase('Question #2');?></strong> - <?php echo get_phrase('Fill in the Blank');?></h5>
-                        </div>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <p><strong><?php echo get_phrase('Question');?>:</strong></p>
-                                <p class="text-muted">
-                                    <?php echo get_phrase('The sum of angles in a triangle is __________°.');?>
-                                </p>
-                            </div>
-
-                            <div class="form-group">
-                                <span class="label label-info"><?php echo get_phrase('Correct Answer');?>: 180</span>
-                            </div>
-                        </div>
-                    </div>
-
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-muted"><?php echo get_phrase('No questions to preview.');?></p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== ACTION BUTTONS ==================== -->
         <div class="panel panel-default m-b-20">
             <div class="panel-body text-center">
-                <form method="POST" action="<?php echo base_url();?>admin/cbt/publish_exam" style="display: inline-block; width: 100%;">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <a href="<?php echo base_url();?>admin/cbt/edit_exam/1" class="btn btn-default btn-block btn-rounded">
-                                <i class="fa fa-arrow-left"></i>&nbsp;<?php echo get_phrase('Back to Edit');?>
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-warning btn-block btn-rounded" name="action" value="draft">
-                                <i class="fa fa-floppy-o"></i>&nbsp;<?php echo get_phrase('Save as Draft');?>
-                            </button>
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-success btn-block btn-rounded" name="action" value="publish">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="<?php echo base_url();?>admin/cbt/edit_cbtexams/<?php echo $exam_id; ?>" class="btn btn-default btn-block btn-rounded">
+                            <i class="fa fa-pencil"></i>&nbsp;<?php echo get_phrase('Edit Exam');?>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="<?php echo base_url();?>admin/cbt/add_questions/<?php echo $exam_id; ?>" class="btn btn-warning btn-block btn-rounded">
+                            <i class="fa fa-plus"></i>&nbsp;<?php echo get_phrase('Add Questions');?>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="<?php echo base_url();?>admin/cbtDashboard" class="btn btn-info btn-block btn-rounded">
+                            <i class="fa fa-list"></i>&nbsp;<?php echo get_phrase('Dashboard');?>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <form method="POST" action="<?php echo base_url();?>admin/cbt/publish_exam/<?php echo $exam_id; ?>">
+                            <button type="submit" class="btn btn-success btn-block btn-rounded" <?php if ($question_count < 1) echo 'disabled'; ?>>
                                 <i class="fa fa-rocket"></i>&nbsp;<?php echo get_phrase('Publish Exam');?>
                             </button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 
-        <!-- ==================== PUBLISHED INFO ==================== -->
         <div class="alert alert-info" role="alert">
             <i class="fa fa-info-circle"></i>&nbsp;
-            <strong><?php echo get_phrase('Note');?>:</strong> 
-            <?php echo get_phrase('Once you publish this exam, it will be immediately available for students to access during the scheduled time window. Make sure all questions are correctly added before publishing.');?>
+            <strong><?php echo get_phrase('Note');?>:</strong>
+            <?php echo get_phrase('Once you publish this exam, it will be available for students during the scheduled time window.');?>
         </div>
-
     </div>
 </div>
 

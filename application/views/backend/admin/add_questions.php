@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;<?php echo get_phrase('Add Questions to Exam');?>
                 <div class="pull-right">
-                    <span class="text-muted"><?php echo get_phrase('Exam ID: #EX001');?></span>
+                    <span class="text-muted"><?php echo get_phrase('Exam ID:');?> #<?php echo html_escape($exam_id); ?> - <?php echo html_escape($exam['title']); ?></span>
                 </div>
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
@@ -16,7 +16,7 @@
                             <button type="button" class="btn btn-success btn-rounded" id="add_question_btn">
                                 <i class="fa fa-plus"></i>&nbsp;<?php echo get_phrase('Add Question');?>
                             </button>
-                            <a href="<?php echo base_url();?>admin/cbt/review_exam/1" class="btn btn-primary btn-rounded pull-right">
+                            <a href="<?php echo base_url();?>admin/cbt/review_publish/<?php echo $exam_id; ?>" class="btn btn-primary btn-rounded pull-right">
                                 <i class="fa fa-arrow-right"></i>&nbsp;<?php echo get_phrase('Review & Publish');?>
                             </a>
                         </div>
@@ -25,7 +25,8 @@
                     <hr class="m-t-20 m-b-20">
 
                     <!-- Questions Container -->
-                    <form method="POST" action="<?php echo base_url();?>admin/cbt/save_questions" id="questions_form">
+                    <form method="POST" action="<?php echo base_url();?>admin/cbt/save_questions/<?php echo $exam_id; ?>" id="questions_form">
+                        <input type="hidden" name="exam_id" value="<?php echo html_escape($exam_id); ?>">
                         <div id="questions_container">
 
                             <!-- Sample Question Card 1 - Multiple Choice -->
@@ -274,10 +275,10 @@
                             <button type="submit" class="btn btn-success btn-rounded">
                                 <i class="fa fa-floppy-o"></i>&nbsp;<?php echo get_phrase('Save Questions');?>
                             </button>
-                            <a href="<?php echo base_url();?>admin/cbt/review_exam/1" class="btn btn-primary btn-rounded">
+                            <a href="<?php echo base_url();?>admin/cbt/review_publish/<?php echo $exam_id; ?>" class="btn btn-primary btn-rounded">
                                 <i class="fa fa-arrow-right"></i>&nbsp;<?php echo get_phrase('Review & Publish');?>
                             </a>
-                            <a href="<?php echo base_url();?>admin/cbt" class="btn btn-default btn-rounded">
+                            <a href="<?php echo base_url();?>admin/cbtDashboard" class="btn btn-default btn-rounded">
                                 <i class="fa fa-times"></i>&nbsp;<?php echo get_phrase('Cancel');?>
                             </a>
                         </div>
@@ -500,3 +501,4 @@
         `;
     }
 </script>
+

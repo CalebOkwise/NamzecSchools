@@ -5,7 +5,7 @@
                 <i class="fa fa-laptop"></i>&nbsp;&nbsp;<?php echo get_phrase('CBT Center');?>
                 <div class="pull-right">
                     <a href="<?php echo base_url();?>admin/create_cbtexam" class="btn btn-success btn-rounded btn-sm">
-                        <i class="fa fa-plus"></i>&nbsp;<?php echo get_phrase('Create New CBT Exam');?>
+                        <i class="fa fa-plus"></i>&nbsp;<?php echo get_phrase('Create CBT Exam');?>
                     </a>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                                     <a href="<?php echo base_url();?>admin/cbt/add_questions/<?php echo $exam['id']; ?>" class="btn btn-warning btn-circle btn-xs" title="Add Questions">
                                         <i class="fa fa-plus"></i>
                                     </a>
-                                    <a href="<?php echo base_url();?>admin/cbt/preview_exam/<?php echo $exam['id']; ?>" class="btn btn-primary btn-circle btn-xs" title="Preview">
+                                    <a href="<?php echo base_url();?>admin/cbt/review_publish/<?php echo $exam['id']; ?>" class="btn btn-primary btn-circle btn-xs" title="Review">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                     <a href="javascript:void(0);" onclick="confirm_delete('<?php echo base_url();?>admin/cbt/delete_exam/<?php echo $exam['id']; ?>');" class="btn btn-danger btn-circle btn-xs" title="Delete">

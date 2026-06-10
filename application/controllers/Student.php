@@ -7,6 +7,7 @@ class Student extends CI_Controller {
         parent::__construct();
         		$this->load->database();                                //Load Databse Class
                 $this->load->library('session');					    //Load library for session
+                $this->load->model('cbt_exam_model');
   
     }
 
@@ -179,6 +180,62 @@ class Student extends CI_Controller {
             $this->load->view('backend/index', $page_data);
         }
 
+        function cbt(){
+            if ($this->session->userdata('student_login') != 1) redirect(base_url(), 'refresh');
+
+            $student_profile = $this->db->get_where('student', array('student_id' => $this->session->userdata('student_id')))->row();
+            if (empty($student_profile)) {
+                redirect(base_url(), 'refresh');
+            }
+
+            $page_data['page_name']     = 'cbt';
+            $page_data['page_title']    = get_phrase('CBT Exams');
+            $page_data['student_class_id'] = $student_profile->class_id;
+            $page_data['cbt_exams']     = $this->cbt_exam_model->get_published_exams_by_class($student_profile->class_id);
+            $this->load->view('backend/index', $page_data);
+        }
+
+        function take_cbt_exam($exam_id = null){
+            if ($this->session->userdata('student_login') != 1) redirect(base_url(), 'refresh');
+
+            $exam_id = intval($exam_id);
+            $student_profile = $this->db->get_where('student', array('student_id' => $this->session->userdata('student_id')))->row();
+            if (empty($student_profile) || $exam_id < 1) {
+                $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $exam = $this->cbt_exam_model->get_published_exam_for_class($exam_id, $student_profile->class_id);
+            if (empty($exam)) {
+                $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $now = time();
+            if ($now < strtotime($exam['start_at']) || $now > strtotime($exam['end_at'])) {
+                $this->session->set_flashdata('error_message', get_phrase('This exam is not available at this time'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $questions = $this->cbt_exam_model->get_questions_by_exam($exam_id);
+            foreach ($questions as $key => $question) {
+                if ($question['question_type'] == 'mcq') {
+                    $questions[$key]['options'] = $this->cbt_exam_model->get_mcq_options($question['id']);
+                    $questions[$key]['blank_answer'] = null;
+                    $questions[$key]['answer'] = null;
+                } else {
+                    $questions[$key]['options'] = array();
+                    $questions[$key]['blank_answer'] = $this->cbt_exam_model->get_fill_blank_answer($question['id']);
+                    $questions[$key]['answer'] = null;
+                }
+            }
+
+            $page_data['page_name']     = 'take_cbt_exam';
+            $page_data['page_title']    = get_phrase('Take CBT Exam');
+            $page_data['exam']          = $exam;
+            $page_data['questions']     = $questions;
+            $this->load->view('backend/index', $page_data);
+        }
         function payment_history(){
 
             $student_profile = $this->db->get_where('student', array('student_id' => $this->session->userdata('student_id')))->row();

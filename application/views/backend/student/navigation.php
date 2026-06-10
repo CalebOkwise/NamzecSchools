@@ -101,9 +101,15 @@
                     </a>
                 </li>
  
- 
          </ul>
     </li>
+
+            <li class="<?php if ($page_name == 'cbt' || $page_name == 'take_cbt_exam') echo 'active'; ?> ">
+                <a href="<?php echo base_url(); ?>student/cbt">
+                    <i class="fa fa-pencil p-r-10"></i>
+                        <span class="hide-menu"><?php echo get_phrase('CBT'); ?></span>
+                </a>
+            </li>
 
             <li class="<?php if ($page_name == 'invoice') echo 'active'; ?> ">
                 <a href="<?php echo base_url(); ?>student/invoice">
