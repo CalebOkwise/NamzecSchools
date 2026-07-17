@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Subject extends CI_Controller { 
+class Subject extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,19 +17,19 @@ class Subject extends CI_Controller {
 
         if($param1 == 'create'){
         $this->subject_model->createSubjectFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'subject/subject', 'refresh');
         }
 
         if($param1 == 'update'){
         $this->subject_model->updateSubjectFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'subject/subject', 'refresh');
         }
 
         if($param1 == 'delete'){
         $this->subject_model->deleteSubjectFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'subject/subject', 'refresh');
         }
 

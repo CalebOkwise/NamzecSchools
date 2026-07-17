@@ -2,7 +2,7 @@
 
 
 
-class Payment extends CI_Controller { 
+class Payment extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -29,7 +29,7 @@ class Payment extends CI_Controller {
         if ($param1 == 'update') {
         $this->crud_model->stripe_settings();
         $this->crud_model->paypal_settings();
-        $this->session->set_flashdata('flash_message', get_phrase('Data Updated Successfully'));
+        $this->set_flash_message( get_phrase('Data Updated Successfully'));
         redirect(base_url(). 'payment/paymentSetting', 'refresh');
     }
 

@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Report extends CI_Controller {
+class Report extends MY_Controller {
 
     function __construct() {
         parent::__construct();
@@ -65,7 +65,7 @@ class Report extends CI_Controller {
                 redirect(base_url(). 'report/examMarkReport/'. $page_data['exam_id'] .'/' . $page_data['class_id'] . '/' . $page_data['student_id'], 'refresh');
             }
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Pleasen select something'));
+                $this->set_error_message( get_phrase('Pleasen select something'));
                 redirect(base_url(). 'report/examMarkReport', 'refresh');
             }
         }

@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Accountant extends CI_Controller { 
+class Accountant extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -32,7 +32,7 @@ class Accountant extends CI_Controller {
             $this->db->where('accountant_id', $this->session->userdata('accountant_id'));
             $this->db->update('accountant', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/accountant_image/' . $this->session->userdata('accountant_id') . '.jpg');
-            $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+            $this->set_flash_message( get_phrase('Info Updated'));
             redirect(base_url() . 'accountant/manage_profile', 'refresh');
            
         }
@@ -45,11 +45,11 @@ class Accountant extends CI_Controller {
                
                $this->db->where('accountant_id', $this->session->userdata('accountant_id'));
                $this->db->update('accountant', array('password' => $data['new_password']));
-               $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+               $this->set_flash_message( get_phrase('Password Changed'));
             }
     
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+                $this->set_error_message( get_phrase('Type the same password'));
             }
             redirect(base_url() . 'accountant/manage_profile', 'refresh');
         }
@@ -67,32 +67,32 @@ class Accountant extends CI_Controller {
 
         if($param1 == 'single_invoice'){
             $this->student_payment_model->createStudentSinglePaymentFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'accountant/student_invoice', 'refresh');
         }
 
         if($param1 == 'mass_invoice'){
             $this->student_payment_model->createStudentMassPaymentFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'accountant/student_invoice', 'refresh');
         }
 
         if($param1 == 'update_invoice'){
             $this->student_payment_model->updateStudentPaymentFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'accountant/student_invoice', 'refresh');
         }
 
         if($param1 == 'take_payment'){
             $this->student_payment_model->takeNewPaymentFromStudent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'accountant/student_invoice', 'refresh');
         }
 
 
         if($param1 == 'delete_invoice'){
             $this->student_payment_model->deleteStudentPaymentFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'accountant/student_invoice', 'refresh');
         }
 

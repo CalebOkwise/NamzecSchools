@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Transportation extends CI_Controller { 
+class Transportation extends MY_Controller { 
 
             function __construct() {
                 parent::__construct();
@@ -15,20 +15,20 @@ class Transportation extends CI_Controller {
 
                 if($param1 == 'insert'){
                     $this->transportation_model->insertTransportFunction();
-                    $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+                    $this->set_flash_message( get_phrase('Data saved successfully'));
                     redirect(base_url(). 'transportation/transport', 'refresh');
                 }
         
                 if($param1 == 'update'){
                     $this->transportation_model->updateTransportFunction($param2);
-                    $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+                    $this->set_flash_message( get_phrase('Data updated successfully'));
                     redirect(base_url(). 'transportation/transport', 'refresh');
                 }
         
         
                 if($param1 == 'delete'){
                     $this->transportation_model->deleteTransportFunction($param2);
-                    $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+                    $this->set_flash_message( get_phrase('Data deleted successfully'));
                     redirect(base_url(). 'transportation/transport', 'refresh');
                     }
         
@@ -45,20 +45,20 @@ class Transportation extends CI_Controller {
 
                     if($param1 == 'insert'){
                         $this->transportation_model->insertTransportRoute();
-                        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+                        $this->set_flash_message( get_phrase('Data saved successfully'));
                         redirect(base_url(). 'transportation/transport_route', 'refresh');
                     }
             
                     if($param1 == 'update'){
                         $this->transportation_model->updateTransportRoute($param2);
-                        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+                        $this->set_flash_message( get_phrase('Data updated successfully'));
                         redirect(base_url(). 'transportation/transport_route', 'refresh');
                     }
             
             
                     if($param1 == 'delete'){
                         $this->transportation_model->deleteTransportRoute($param2);
-                        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+                        $this->set_flash_message( get_phrase('Data deleted successfully'));
                         redirect(base_url(). 'transportation/transport_route', 'refresh');
                         }
             
@@ -73,20 +73,20 @@ class Transportation extends CI_Controller {
 
                         if($param1 == 'insert'){
                             $this->transportation_model->insertVehicle();
-                            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+                            $this->set_flash_message( get_phrase('Data saved successfully'));
                             redirect(base_url(). 'transportation/vehicle', 'refresh');
                         }
                 
                         if($param1 == 'update'){
                             $this->transportation_model->updateVehicle($param2);
-                            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+                            $this->set_flash_message( get_phrase('Data updated successfully'));
                             redirect(base_url(). 'transportation/vehicle', 'refresh');
                         }
                 
                 
                         if($param1 == 'delete'){
                             $this->transportation_model->deleteVehicle($param2);
-                            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+                            $this->set_flash_message( get_phrase('Data deleted successfully'));
                             redirect(base_url(). 'transportation/vehicle', 'refresh');
                             }
                 

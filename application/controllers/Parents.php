@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Parents extends CI_Controller { 
+class Parents extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -30,7 +30,7 @@ class Parents extends CI_Controller {
             $this->db->where('parent_id', $this->session->userdata('parent_id'));
             $this->db->update('parent', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/parent_image/' . $this->session->userdata('parent_id') . '.jpg');
-            $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+            $this->set_flash_message( get_phrase('Info Updated'));
             redirect(base_url() . 'parents/manage_profile', 'refresh');
         }
     
@@ -42,11 +42,11 @@ class Parents extends CI_Controller {
                
                $this->db->where('parent_id', $this->session->userdata('parent_id'));
                $this->db->update('parent', array('password' => $data['new_password']));
-               $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+               $this->set_flash_message( get_phrase('Password Changed'));
             }
     
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+                $this->set_error_message( get_phrase('Type the same password'));
             }
             redirect(base_url() . 'parents/manage_profile', 'refresh');
         }
@@ -159,12 +159,12 @@ class Parents extends CI_Controller {
             }
 
             if($param1 == 'paypal_cancel'){
-                $this->session->set_flashdata('error_message', get_phrase('Payment Cancelled'));
+                $this->set_error_message( get_phrase('Payment Cancelled'));
                 redirect(base_url() . 'parents/invoice', 'refresh');
                 }
     
             if($param1 == 'paypal_success'){
-                $this->session->set_flashdata('flash_message', get_phrase('Payment Successful'));
+                $this->set_flash_message( get_phrase('Payment Successful'));
                 redirect(base_url() . 'parents/invoice', 'refresh');
             }
            

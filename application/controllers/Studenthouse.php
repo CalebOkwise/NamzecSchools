@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Studenthouse extends CI_Controller { 
+class Studenthouse extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,21 +17,21 @@ class Studenthouse extends CI_Controller {
     {
         if($param1 == 'create'){
             $this->student_model->createStudentHouse();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'studenthouse/studentHouse', 'refresh');
         }
 
         if($param1 == 'update')
         {
             $this->student_model->updateStudentHouse($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'studenthouse/studentHouse', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->student_model->deleteStudentHouse($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'studenthouse/studentHouse', 'refresh');
 
         }

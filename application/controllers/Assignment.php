@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Assignment extends CI_Controller { 
+class Assignment extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,20 +17,20 @@ class Assignment extends CI_Controller {
         if ($param1 == 'insert'){
         
         $this->assignment_model->inserAssignment();
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+        $this->set_flash_message( get_phrase('Data successfully saved'));
         redirect(base_url(). 'assignment/assignment', 'refresh');
         }
         
     if($param1 == 'update'){
 
         $this->assignment_model->updateAssignment($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'assignment/assignment', 'refresh');
     }
 
     if($param1 == 'delete'){
         $this->assignment_model->deleteAssignment($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+        $this->set_flash_message( get_phrase('Data successfully deleted'));
         redirect(base_url(). 'assignment/assignment', 'refresh');
     }
 

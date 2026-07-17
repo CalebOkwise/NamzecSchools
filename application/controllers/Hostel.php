@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Hostel extends CI_Controller { 
+class Hostel extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -32,7 +32,7 @@ class Hostel extends CI_Controller {
             $this->db->where('hostel_id', $this->session->userdata('hostel_id'));
             $this->db->update('hostel', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/hostel_image/' . $this->session->userdata('hostel_id') . '.jpg');
-            $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+            $this->set_flash_message( get_phrase('Info Updated'));
             redirect(base_url() . 'hostel/manage_profile', 'refresh');
            
         }
@@ -45,11 +45,11 @@ class Hostel extends CI_Controller {
                
                $this->db->where('hostel_id', $this->session->userdata('hostel_id'));
                $this->db->update('hostel', array('password' => $data['new_password']));
-               $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+               $this->set_flash_message( get_phrase('Password Changed'));
             }
     
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+                $this->set_error_message( get_phrase('Type the same password'));
             }
             redirect(base_url() . 'hostel/manage_profile', 'refresh');
         }
@@ -66,20 +66,20 @@ class Hostel extends CI_Controller {
 
         if($param1 == 'create'){
             $this->dormitory_model->createDormitoryFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'hostel/dormitory', 'refresh');
         }
     
         if($param1 == 'update'){
             $this->dormitory_model->updateDormitoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'hostel/dormitory', 'refresh');
         }
     
     
         if($param1 == 'delete'){
             $this->dormitory_model->deleteDormitoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'hostel/dormitory', 'refresh');
     
         }
@@ -96,20 +96,20 @@ class Hostel extends CI_Controller {
     
         if($param1 == 'create'){
             $this->dormitory_model->createHostelRoomFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'hostel/hostel_room', 'refresh');
         }
     
         if($param1 == 'update'){
             $this->dormitory_model->updateHostelRoomFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'hostel/hostel_room', 'refresh');
         }
     
     
         if($param1 == 'delete'){
             $this->dormitory_model->deleteHostelRoomFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'hostel/hostel_room', 'refresh');
     
         }
@@ -126,20 +126,20 @@ class Hostel extends CI_Controller {
     
         if($param1 == 'create'){
             $this->dormitory_model->createHostelCategoryFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'hostel/hostel_category', 'refresh');
         }
     
         if($param1 == 'update'){
             $this->dormitory_model->updateHostelCategoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'hostel/hostel_category', 'refresh');
         }
     
     
         if($param1 == 'delete'){
             $this->dormitory_model->deleteHostelCategoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'hostel/hostel_category', 'refresh');
     
         }

@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Admin extends CI_Controller { 
+class Admin extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -50,7 +50,7 @@ class Admin extends CI_Controller {
         $this->db->where('admin_id', $this->session->userdata('admin_id'));
         $this->db->update('admin', $data);
         move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/admin_image/' . $this->session->userdata('admin_id') . '.jpg');
-        $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+        $this->set_flash_message( get_phrase('Info Updated'));
         redirect(base_url() . 'admin/manage_profile', 'refresh');
        
     }
@@ -63,11 +63,11 @@ class Admin extends CI_Controller {
            
            $this->db->where('admin_id', $this->session->userdata('admin_id'));
            $this->db->update('admin', array('password' => $data['new_password']));
-           $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+           $this->set_flash_message( get_phrase('Password Changed'));
         }
 
         else{
-            $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+            $this->set_error_message( get_phrase('Type the same password'));
         }
         redirect(base_url() . 'admin/manage_profile', 'refresh');
     }
@@ -85,7 +85,7 @@ class Admin extends CI_Controller {
    
         $this->crud_model->enquiry_category();
 
-        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+        $this->set_flash_message( get_phrase('Data saved successfully'));
         redirect(base_url(). 'admin/enquiry_category', 'refresh');
     }
 
@@ -94,7 +94,7 @@ class Admin extends CI_Controller {
        $this->crud_model->update_category($param2);
 
 
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/enquiry_category', 'refresh');
 
         }
@@ -102,7 +102,7 @@ class Admin extends CI_Controller {
     if($param1 == 'delete'){
 
        $this->crud_model->delete_category($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/enquiry_category', 'refresh');
 
         }
@@ -121,7 +121,7 @@ class Admin extends CI_Controller {
         if($param1 == 'delete')
         {
             $this->crud_model->delete_enquiry($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/list_enquiry', 'refresh');
     
         }
@@ -139,20 +139,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'insert'){
             $this->crud_model->insert_club();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/club', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->crud_model->update_club($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/club', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->crud_model->delete_club($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/club', 'refresh');
     
             }
@@ -171,7 +171,7 @@ class Admin extends CI_Controller {
         if ($param1 == 'insert'){
 
             $this->crud_model->insert_circular();
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/circular', 'refresh');
         }
 
@@ -179,7 +179,7 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_circular($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/circular', 'refresh');
 
         }
@@ -187,7 +187,7 @@ class Admin extends CI_Controller {
 
         if($param1 == 'delete'){
             $this->crud_model->delete_circular($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/circular', 'refresh');
 
 
@@ -206,7 +206,7 @@ class Admin extends CI_Controller {
         if ($param1 == 'insert'){
 
             $this->crud_model->insert_parent();
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/parent', 'refresh');
         }
 
@@ -214,14 +214,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_parent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/parent', 'refresh');
 
         }
 
         if($param1 == 'delete'){
             $this->crud_model->delete_parent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/parent', 'refresh');
 
         }
@@ -239,7 +239,7 @@ class Admin extends CI_Controller {
 
             $this->crud_model->insert_librarian();
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/librarian', 'refresh');
         }
 
@@ -247,14 +247,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_librarian($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/librarian', 'refresh');
 
         }
 
         if($param1 == 'delete'){
             $this->crud_model->delete_librarian($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/librarian', 'refresh');
 
         }
@@ -273,7 +273,7 @@ class Admin extends CI_Controller {
 
             $this->crud_model->insert_accountant();
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/accountant', 'refresh');
         }
 
@@ -281,14 +281,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_accountant($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/accountant', 'refresh');
 
         }
 
         if($param1 == 'delete'){
             $this->crud_model->delete_accountant($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/accountant', 'refresh');
 
         }
@@ -308,7 +308,7 @@ class Admin extends CI_Controller {
 
             $this->crud_model->insert_hostel();
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/hostel', 'refresh');
         }
 
@@ -316,14 +316,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_hostel($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/hostel', 'refresh');
 
         }
 
         if($param1 == 'delete'){
             $this->crud_model->delete_hostel($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/hostel', 'refresh');
 
         }
@@ -344,7 +344,7 @@ class Admin extends CI_Controller {
 
             $this->crud_model->insert_hrm();
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/hrm', 'refresh');
         }
 
@@ -352,14 +352,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->crud_model->update_hrm($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/hrm', 'refresh');
 
         }
 
         if($param1 == 'delete'){
             $this->crud_model->delete_hrm($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+            $this->set_flash_message( get_phrase('Data successfully deleted'));
             redirect(base_url(). 'admin/hrm', 'refresh');
 
         }
@@ -379,7 +379,7 @@ class Admin extends CI_Controller {
 
             $this->alumni_model->insert_alumni();
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+            $this->set_flash_message( get_phrase('Data successfully saved'));
             redirect(base_url(). 'admin/alumni', 'refresh');
         }
 
@@ -387,14 +387,14 @@ class Admin extends CI_Controller {
         if($param1 == 'update'){
 
             $this->alumni_model->update_alumni($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+            $this->set_flash_message( get_phrase('Data successfully updated'));
             redirect(base_url(). 'admin/alumni', 'refresh');
 
         }
 
         if($param1 == 'delete'){
         $this->alumni_model->delete_alumni($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+        $this->set_flash_message( get_phrase('Data successfully deleted'));
         redirect(base_url(). 'admin/alumni', 'refresh');
 
         }
@@ -410,20 +410,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'insert'){
             $this->teacher_model->insetTeacherFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/teacher', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->teacher_model->updateTeacherFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/teacher', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->teacher_model->deleteTeacherFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/teacher', 'refresh');
     
         }
@@ -447,20 +447,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'insert'){
             $this->vacancy_model->insetVacancyFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/vacancy', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->vacancy_model->updateVacancyFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/vacancy', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->vacancy_model->deleteVacancyFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/vacancy', 'refresh');
     
         }
@@ -478,20 +478,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'insert'){
             $this->application_model->insertApplicantFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/application', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->application_model->updateApplicantFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/application', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->application_model->deleteApplicantFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/application', 'refresh');
     
         }
@@ -514,14 +514,14 @@ class Admin extends CI_Controller {
 
         if($param1 == 'update'){
             $this->leave_model->updateLeaveFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/leave', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->leave_model->deleteLeaveFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/leave', 'refresh');
     
         }
@@ -538,20 +538,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
             $this->award_model->createAwardFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/award', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->award_model->updateAwardFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/award', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->award_model->deleteAwardFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/award', 'refresh');
     
         }
@@ -602,7 +602,7 @@ class Admin extends CI_Controller {
     function create_payroll(){
 
         $this->payroll_model->insertPayrollFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+        $this->set_flash_message( get_phrase('Data saved successfully'));
         redirect(base_url(). 'admin/payroll_list/filter2/'. $this->input->post('month').'/'. $this->input->post('year'), 'refresh');
     }
 
@@ -615,7 +615,7 @@ class Admin extends CI_Controller {
             $data['status'] =  1;
             $this->db->update('payroll', $data, array('payroll_id' => $param2));
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/payroll_list/filter2/'. $param3.'/'. $param4, 'refresh');
         }
 
@@ -646,20 +646,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
             $this->class_model->createClassFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/classes', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->class_model->updateClassFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/classes', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->class_model->deleteClassFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/classes', 'refresh');
     
         }
@@ -676,19 +676,19 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
         $this->section_model->createSectionFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/section', 'refresh');
         }
 
         if($param1 == 'update'){
         $this->section_model->updateSectionFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/section', 'refresh');
         }
 
         if($param1 == 'delete'){
         $this->section_model->deleteSectionFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/section', 'refresh');
         }
 
@@ -715,14 +715,14 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
         $this->class_routine_model->createTimetableFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/listStudentTimetable', 'refresh');
         }
 
         if($param1 == 'update'){
         
         $this->class_routine_model->updateTimetableFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/listStudentTimetable', 'refresh');
         }
 
@@ -731,7 +731,7 @@ class Admin extends CI_Controller {
         $this->db->where('class_routine_id', $param2);
         $this->db->delete('class_routine');
         //$this->class_routine_model->deleteTimetableFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/listStudentTimetable', 'refresh');
         }
     }
@@ -785,20 +785,20 @@ class Admin extends CI_Controller {
 
     if($param1 == 'create'){
         $this->dormitory_model->createDormitoryFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/dormitory', 'refresh');
     }
 
     if($param1 == 'update'){
         $this->dormitory_model->updateDormitoryFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/dormitory', 'refresh');
     }
 
 
     if($param1 == 'delete'){
         $this->dormitory_model->deleteDormitoryFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/dormitory', 'refresh');
 
     }
@@ -815,20 +815,20 @@ class Admin extends CI_Controller {
 
     if($param1 == 'create'){
         $this->dormitory_model->createHostelRoomFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+        $this->set_flash_message( get_phrase('Data saved successfully'));
         redirect(base_url(). 'admin/hostel_room', 'refresh');
     }
 
     if($param1 == 'update'){
         $this->dormitory_model->updateHostelRoomFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/hostel_room', 'refresh');
     }
 
 
     if($param1 == 'delete'){
         $this->dormitory_model->deleteHostelRoomFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/hostel_room', 'refresh');
 
     }
@@ -845,20 +845,20 @@ class Admin extends CI_Controller {
 
     if($param1 == 'create'){
         $this->dormitory_model->createHostelCategoryFunction();
-        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+        $this->set_flash_message( get_phrase('Data saved successfully'));
         redirect(base_url(). 'admin/hostel_category', 'refresh');
     }
 
     if($param1 == 'update'){
         $this->dormitory_model->updateHostelCategoryFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/hostel_category', 'refresh');
     }
 
 
     if($param1 == 'delete'){
         $this->dormitory_model->deleteHostelCategoryFunction($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/hostel_category', 'refresh');
 
     }
@@ -875,20 +875,20 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
         $this->academic_model->createAcademicSyllabus();
-        $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+        $this->set_flash_message( get_phrase('Data saved successfully'));
         redirect(base_url(). 'admin/academic_syllabus', 'refresh');
     }
 
     if($param1 == 'update'){
         $this->academic_model->updateAcademicSyllabus($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/academic_syllabus', 'refresh');
     }
 
 
     if($param1 == 'delete'){
         $this->academic_model->deleteAcademicSyllabus($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+        $this->set_flash_message( get_phrase('Data deleted successfully'));
         redirect(base_url(). 'admin/academic_syllabus', 'refresh');
 
         }
@@ -942,19 +942,19 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
             $this->student_model->createNewStudent();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/student_information', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->student_model->updateNewStudent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/student_information', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->student_model->deleteNewStudent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/student_information', 'refresh');
 
         }
@@ -998,10 +998,10 @@ class Admin extends CI_Controller {
         if ($password['password'] == $confirm_password['confirm_new_password']) {
            $this->db->where('student_id', $student_id);
            $this->db->update('student', $password);
-           $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+           $this->set_flash_message( get_phrase('Password Changed'));
         }
         else{
-            $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+            $this->set_error_message( get_phrase('Type the same password'));
         }
         redirect(base_url() . 'admin/student_information', 'refresh');
     }
@@ -1033,17 +1033,17 @@ class Admin extends CI_Controller {
                                 $this->sms_model->send_sms($message, $recieverPhoneNumber);
                             }
                             else{
-                                $this->session->set_flashdata('error_message' , get_phrase('Parent Phone Not Found'));
+                                $this->set_error_message( get_phrase('Parent Phone Not Found'));
                             }
                         }
                         else{
-                            $this->session->set_flashdata('error_message' , get_phrase('SMS Gateway Not Found'));
+                            $this->set_error_message( get_phrase('SMS Gateway Not Found'));
                         }
                     }
            }
         }
     
-            $this->session->set_flashdata('flash_message', get_phrase('Updated Successfully'));
+            $this->set_flash_message( get_phrase('Updated Successfully'));
             redirect(base_url() . 'admin/manage_attendance/' . $date . '/' . $month . '/' . $year . '/' . $class_id . '/' . $section_id, 'refresh');
         }
 
@@ -1131,19 +1131,19 @@ class Admin extends CI_Controller {
 
         if($param1 == 'create'){
             $this->exam_question_model->createexamQuestion();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/examQuestion', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->exam_question_model->updateexamQuestion($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/examQuestion', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->exam_question_model->deleteexamQuestion($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/examQuestion', 'refresh');
         }
 
@@ -1183,165 +1183,51 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
     if ($param1 == 'save_exam') {
         // Save the exam and get the exam ID
         $exam_id = $this->cbt_exam_model->save_exam();
-
+        
         // Store the exam ID in session for use on next page
         $this->session->set_userdata('cbt_exam_id', $exam_id);
-
-        $this->session->set_flashdata('flash_message', get_phrase('Exam saved successfully'));
+        
+        $this->set_flash_message( get_phrase('Exam saved successfully'));
         redirect(base_url(). 'admin/cbt/add_questions/' . $exam_id, 'refresh');
     }
-
     if ($param1 == 'save_questions') {
         $exam_id = intval($param2);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
         $saved_questions = $this->cbt_exam_model->save_questions($exam_id);
 
         if ($saved_questions > 0) {
-            $this->session->set_flashdata('flash_message', get_phrase('Questions saved successfully'));
+            $this->set_flash_message( get_phrase('Questions saved successfully'));
         } else {
-            $this->session->set_flashdata('error_message', get_phrase('No questions were saved'));
+            $this->set_error_message( get_phrase('No questions were saved'));
         }
 
         redirect(base_url(). 'admin/cbt/add_questions/' . $exam_id, 'refresh');
     }
-
     if ($param1 == 'add_questions') {
         $exam_id = intval($param2);
         if (empty($exam_id)) {
             $exam_id = $this->session->userdata('cbt_exam_id');
         }
 
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
+        if (empty($exam_id)) {
             redirect(base_url(). 'admin/cbtDashboard', 'refresh');
         }
 
         $page_data['page_name']     = 'add_questions';
         $page_data['page_title']    = get_phrase('Add Questions');
         $page_data['exam_id']       = $exam_id;
-        $page_data['exam']          = $exam;
+        $page_data['exam']          = $this->cbt_exam_model->get_exam($exam_id);
         $this->load->view('backend/index', $page_data);
-        return;
     }
-
-    if ($param1 == 'update_exam') {
-        $exam_id = intval($param2);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
-        $this->cbt_exam_model->update_exam($exam_id);
-        $this->session->set_flashdata('flash_message', get_phrase('Exam updated successfully'));
-
-        if ($this->input->post('action') == 'continue') {
-            redirect(base_url(). 'admin/cbt/review_publish/' . $exam_id, 'refresh');
-        }
-
-        redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-    }
-    if ($param1 == 'review_publish') {
-        $exam_id = intval($param2);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
-        $questions = $this->cbt_exam_model->get_questions_by_exam($exam_id);
-        foreach ($questions as $key => $question) {
-            if ($question['question_type'] == 'mcq') {
-                $questions[$key]['options'] = $this->cbt_exam_model->get_mcq_options($question['id']);
-                $questions[$key]['answer'] = null;
-            } else {
-                $questions[$key]['options'] = array();
-                $questions[$key]['answer'] = $this->cbt_exam_model->get_fill_blank_answer($question['id']);
-            }
-        }
-
-        $class = $this->db->get_where('class', array('class_id' => $exam['class_id']))->row_array();
-        $subject = $this->db->get_where('subject', array('subject_id' => $exam['subject_id']))->row_array();
-
-        $page_data['page_name']     = 'review_publish';
-        $page_data['page_title']    = get_phrase('Review & Publish');
-        $page_data['exam']          = $exam;
-        $page_data['exam_id']       = $exam_id;
-        $page_data['questions']     = $questions;
-        $page_data['class_name']    = !empty($class) ? $class['name'] : '';
-        $page_data['subject_name']  = !empty($subject) ? $subject['name'] : '';
-        $this->load->view('backend/index', $page_data);
-        return;
-    }
-
-    if ($param1 == 'delete_question') {
-        $exam_id = intval($param2);
-        $question_id = intval($param3);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
-        if ($question_id < 1) {
-            $this->session->set_flashdata('error_message', get_phrase('Question not found'));
-            redirect(base_url(). 'admin/cbt/review_publish/' . $exam_id, 'refresh');
-        }
-
-        if ($this->cbt_exam_model->delete_question($exam_id, $question_id)) {
-            $this->session->set_flashdata('flash_message', get_phrase('Question deleted successfully'));
-        } else {
-            $this->session->set_flashdata('error_message', get_phrase('Question not found'));
-        }
-
-        redirect(base_url(). 'admin/cbt/review_publish/' . $exam_id, 'refresh');
-    }
-    if ($param1 == 'publish_exam') {
-        $exam_id = intval($param2);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
-        $questions = $this->cbt_exam_model->get_questions_by_exam($exam_id);
-        if (count($questions) < 1) {
-            $this->session->set_flashdata('error_message', get_phrase('Please add at least one question before publishing'));
-            redirect(base_url(). 'admin/cbt/review_publish/' . $exam_id, 'refresh');
-        }
-
-        $this->cbt_exam_model->publish_exam($exam_id, 'published');
-        $this->session->set_flashdata('flash_message', get_phrase('Exam published successfully'));
-        redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-    }
-
-    if ($param1 == 'edit_cbtexams' || $param1 == 'edit_exam') {
-        $exam_id = intval($param2);
-        $exam = $this->cbt_exam_model->get_exam($exam_id);
-
-        if (empty($exam)) {
-            $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
-            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
-        }
-
+    if ($param1 == 'edit_exam') {
         $page_data['page_name']     = 'edit_cbtexam';
         $page_data['page_title']    = get_phrase('Edit Exam');
-        $page_data['exam']          = $exam;
-        $page_data['classes']       = $this->db->select('class_id, name')->from('class')->order_by('name','ASC')->get()->result_array();
-        $page_data['subjects']      = $this->db->select('subject_id, name')->from('subject')->where('class_id', $exam['class_id'])->order_by('name','ASC')->get()->result_array();
         $this->load->view('backend/index', $page_data);
-        return;
+    }
+
+    if ($param1 == 'review_publish') {
+        $page_data['page_name']     = 'review_publish';
+        $page_data['page_title']    = get_phrase('Review & Publish');
+        $this->load->view('backend/index', $page_data);
     }
 }
 
@@ -1360,19 +1246,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->exam_model->createExamination();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/createExamination', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->exam_model->updateExamination($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/createExamination', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->exam_model->deleteExamination($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/createExamination', 'refresh');
         }
 
@@ -1387,32 +1273,32 @@ function create_cbtexam(){
 
         if($param1 == 'single_invoice'){
             $this->student_payment_model->createStudentSinglePaymentFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/student_invoice', 'refresh');
         }
 
         if($param1 == 'mass_invoice'){
             $this->student_payment_model->createStudentMassPaymentFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/student_invoice', 'refresh');
         }
 
         if($param1 == 'update_invoice'){
             $this->student_payment_model->updateStudentPaymentFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/student_invoice', 'refresh');
         }
 
         if($param1 == 'take_payment'){
             $this->student_payment_model->takeNewPaymentFromStudent($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/student_invoice', 'refresh');
         }
 
 
         if($param1 == 'delete_invoice'){
             $this->student_payment_model->deleteStudentPaymentFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/student_invoice', 'refresh');
         }
 
@@ -1457,19 +1343,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->library_model->createPublisherFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/publisher', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->library_model->updatePublisherFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/publisher', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->library_model->deletePublisherFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/publisher', 'refresh');
         }
 
@@ -1485,19 +1371,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->library_model->createAuthorFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/author', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->library_model->updateAuthorFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/author', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->library_model->deleteAuthorFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/author', 'refresh');
         }
 
@@ -1513,19 +1399,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->library_model->createBookCategoryFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/book_category', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->library_model->updateBookCategoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/book_category', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->library_model->deleteBookCategoryFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/book_category', 'refresh');
         }
 
@@ -1542,19 +1428,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->library_model->createBookFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/book', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->library_model->updateBookFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/book', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->library_model->deleteBookFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/book', 'refresh');
         }
 
@@ -1569,19 +1455,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->event_model->createNoticeboardFunction();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/noticeboard', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->event_model->updateNoticeboardFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/noticeboard', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->event_model->deleteNoticeboardFunction($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/noticeboard', 'refresh');
         }
 
@@ -1600,19 +1486,19 @@ function create_cbtexam(){
 
         if($param1 == 'add_language'){
             $this->language_model->createNewLanguage();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/manage_language', 'refresh');
         }
 
         if($param1 == 'add_phrase'){
             $this->language_model->createNewLanguagePhrase();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/manage_language', 'refresh');
         }
 
         if($param1 == 'delete_language'){
             $this->language_model->deleteLanguage($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/manage_language', 'refresh');
         }
 
@@ -1649,7 +1535,7 @@ function create_cbtexam(){
                     redirect(base_url(). 'admin/marks/'. $page_data['exam_id'] .'/' . $page_data['class_id'] . '/' . $page_data['student_id'], 'refresh');
                 }
                 else{
-                    $this->session->set_flashdata('error_message', get_phrase('Pleasen select something'));
+                    $this->set_error_message( get_phrase('Pleasen select something'));
                     redirect(base_url(). 'admin/marks', 'refresh');
                 }
             }
@@ -1669,7 +1555,7 @@ function create_cbtexam(){
                         $this->db->update('mark', $page_data);  
                     }
 
-                    $this->session->set_flashdata('flash_message', get_phrase('Data Updated Successfully'));
+                    $this->set_flash_message( get_phrase('Data Updated Successfully'));
                     redirect(base_url(). 'admin/marks/'. $this->input->post('exam_id') .'/' . $this->input->post('class_id') . '/' . $this->input->post('student_id'), 'refresh');
             }
 
@@ -1699,7 +1585,7 @@ function create_cbtexam(){
                 redirect(base_url(). 'admin/student_marksheet_subject/'. $page_data['exam_id'] .'/' . $page_data['class_id'] . '/' . $page_data['subject_id'], 'refresh');
             }
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Pleasen select something'));
+                $this->set_error_message( get_phrase('Pleasen select something'));
                 redirect(base_url(). 'admin/student_marksheet_subject', 'refresh');
             }
         }
@@ -1719,7 +1605,7 @@ function create_cbtexam(){
                     $this->db->update('mark', $page_data);  
                 }
 
-                $this->session->set_flashdata('flash_message', get_phrase('Data Updated Successfully'));
+                $this->set_flash_message( get_phrase('Data Updated Successfully'));
                 redirect(base_url(). 'admin/student_marksheet_subject/'. $this->input->post('exam_id') .'/' . $this->input->post('class_id') . '/' . $this->input->post('subject_id'), 'refresh');
         }
 
@@ -1738,7 +1624,7 @@ function create_cbtexam(){
 
         if($param1 == 'send'){
             $this->crud_model->send_student_score_model();
-            $this->session->set_flashdata('flash_message', get_phrase('Data Sent successfully'));
+            $this->set_flash_message( get_phrase('Data Sent successfully'));
             redirect(base_url(). 'admin/exam_marks_sms', 'refresh');
         }
 
@@ -1754,19 +1640,19 @@ function create_cbtexam(){
 
         if($param1 == 'create'){
             $this->admin_model->createNewAdministrator();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'admin/newAdministrator', 'refresh');
         }
 
         if($param1 == 'update'){
             $this->admin_model->updateAdministrator($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'admin/newAdministrator', 'refresh');
         }
 
         if($param1 == 'delete'){
             $this->admin_model->deleteAdministrator($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'admin/newAdministrator', 'refresh');
         }
 
@@ -1778,7 +1664,7 @@ function create_cbtexam(){
 
     function updateAdminRole($param2){
         $this->admin_model->updateAllDetailsForAdminRole($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/newAdministrator', 'refresh');
     }
 
@@ -1788,7 +1674,7 @@ function create_cbtexam(){
 
     if ($param1 == 'save_generalSetting'){
         $this->crud_model->save_into_school_website_table_model();
-        $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+        $this->set_flash_message( get_phrase('Data updated successfully'));
         redirect(base_url(). 'admin/websiteSetting', 'refresh');
     }
         $page_data['page_name']     = 'websiteSetting';
@@ -1797,6 +1683,3 @@ function create_cbtexam(){
     }
 
 }
-
-
-

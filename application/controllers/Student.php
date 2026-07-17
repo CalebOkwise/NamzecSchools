@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Student extends CI_Controller { 
+class Student extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -31,7 +31,7 @@ class Student extends CI_Controller {
             $this->db->where('student_id', $this->session->userdata('student_id'));
             $this->db->update('student', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $this->session->userdata('student_id') . '.jpg');
-            $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+            $this->set_flash_message( get_phrase('Info Updated'));
             redirect(base_url() . 'student/manage_profile', 'refresh');
            
         }
@@ -44,11 +44,11 @@ class Student extends CI_Controller {
                
                $this->db->where('student_id', $this->session->userdata('student_id'));
                $this->db->update('student', array('password' => $data['new_password']));
-               $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+               $this->set_flash_message( get_phrase('Password Changed'));
             }
     
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+                $this->set_error_message( get_phrase('Type the same password'));
             }
             redirect(base_url() . 'student/manage_profile', 'refresh');
         }
@@ -161,12 +161,12 @@ class Student extends CI_Controller {
             }
 
             if($param1 == 'paypal_cancel'){
-                $this->session->set_flashdata('error_message', get_phrase('Payment Cancelled'));
+                $this->set_error_message( get_phrase('Payment Cancelled'));
                 redirect(base_url() . 'student/invoice', 'refresh');
                 }
     
             if($param1 == 'paypal_success'){
-                $this->session->set_flashdata('flash_message', get_phrase('Payment Successful'));
+                $this->set_flash_message( get_phrase('Payment Successful'));
                 redirect(base_url() . 'student/invoice', 'refresh');
             }
            
@@ -201,19 +201,26 @@ class Student extends CI_Controller {
             $exam_id = intval($exam_id);
             $student_profile = $this->db->get_where('student', array('student_id' => $this->session->userdata('student_id')))->row();
             if (empty($student_profile) || $exam_id < 1) {
-                $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
+                $this->set_error_message( get_phrase('Exam not found'));
                 redirect(base_url() . 'student/cbt', 'refresh');
             }
 
             $exam = $this->cbt_exam_model->get_published_exam_for_class($exam_id, $student_profile->class_id);
             if (empty($exam)) {
-                $this->session->set_flashdata('error_message', get_phrase('Exam not found'));
+                $this->session->unset_userdata('error_message');
+                $this->session->unset_userdata('flash_message');
+                $this->set_error_message( get_phrase('Exam not found'));
                 redirect(base_url() . 'student/cbt', 'refresh');
             }
 
             $now = time();
             if ($now < strtotime($exam['start_at']) || $now > strtotime($exam['end_at'])) {
-                $this->session->set_flashdata('error_message', get_phrase('This exam is not available at this time'));
+                $this->set_error_message( get_phrase('This exam is not available at this time'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            if ($this->cbt_exam_model->has_student_submitted_exam($exam_id, $student_profile->student_id)) {
+                $this->set_error_message( get_phrase('You have already submitted this exam'));
                 redirect(base_url() . 'student/cbt', 'refresh');
             }
 
@@ -235,6 +242,46 @@ class Student extends CI_Controller {
             $page_data['exam']          = $exam;
             $page_data['questions']     = $questions;
             $this->load->view('backend/index', $page_data);
+        }
+
+        function submit_cbt_answers($exam_id = null){
+            if ($this->session->userdata('student_login') != 1) redirect(base_url(), 'refresh');
+
+            $exam_id = intval($exam_id);
+            $student_id = $this->session->userdata('student_id');
+            $student_profile = $this->db->get_where('student', array('student_id' => $student_id))->row();
+            if (empty($student_profile) || $exam_id < 1) {
+                $this->set_error_message( get_phrase('Exam not found'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $exam = $this->cbt_exam_model->get_published_exam_for_class($exam_id, $student_profile->class_id);
+            if (empty($exam)) {
+                $this->set_error_message( get_phrase('Exam not found'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $now = time();
+            if ($now < strtotime($exam['start_at']) || $now > strtotime($exam['end_at'])) {
+                $this->set_error_message( get_phrase('This exam is not available at this time'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            if ($this->cbt_exam_model->has_student_submitted_exam($exam_id, $student_id)) {
+                $this->set_error_message( get_phrase('You have already submitted this exam'));
+                redirect(base_url() . 'student/cbt', 'refresh');
+            }
+
+            $submitted_answers = $this->input->post('answer');
+            $saved = $this->cbt_exam_model->submit_student_answers($exam_id, $student_id, $submitted_answers);
+
+            if ($saved) {
+                $this->set_flash_message( get_phrase('Your answers have been submitted successfully'));
+            } else {
+                $this->set_error_message( get_phrase('Unable to save your answers. Please try again.'));
+            }
+
+            redirect(base_url() . 'student/cbt', 'refresh');
         }
         function payment_history(){
 

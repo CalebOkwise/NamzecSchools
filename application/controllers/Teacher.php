@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Teacher extends CI_Controller { 
+class Teacher extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -31,7 +31,7 @@ class Teacher extends CI_Controller {
             $this->db->where('teacher_id', $this->session->userdata('teacher_id'));
             $this->db->update('teacher', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $this->session->userdata('teacher_id') . '.jpg');
-            $this->session->set_flashdata('flash_message', get_phrase('Info Updated'));
+            $this->set_flash_message( get_phrase('Info Updated'));
             redirect(base_url() . 'teacher/manage_profile', 'refresh');
            
         }
@@ -44,11 +44,11 @@ class Teacher extends CI_Controller {
                
                $this->db->where('teacher_id', $this->session->userdata('teacher_id'));
                $this->db->update('teacher', array('password' => $data['new_password']));
-               $this->session->set_flashdata('flash_message', get_phrase('Password Changed'));
+               $this->set_flash_message( get_phrase('Password Changed'));
             }
     
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Type the same password'));
+                $this->set_error_message( get_phrase('Type the same password'));
             }
             redirect(base_url() . 'teacher/manage_profile', 'refresh');
         }
@@ -88,17 +88,17 @@ class Teacher extends CI_Controller {
                                     $this->sms_model->send_sms($message, $recieverPhoneNumber);
                                 }
                                 else{
-                                    $this->session->set_flashdata('error_message' , get_phrase('Parent Phone Not Found'));
+                                    $this->set_error_message( get_phrase('Parent Phone Not Found'));
                                 }
                             }
                             else{
-                                $this->session->set_flashdata('error_message' , get_phrase('SMS Gateway Not Found'));
+                                $this->set_error_message( get_phrase('SMS Gateway Not Found'));
                             }
                         }
                }
             }
         
-                $this->session->set_flashdata('flash_message', get_phrase('Updated Successfully'));
+                $this->set_flash_message( get_phrase('Updated Successfully'));
                 redirect(base_url() . 'teacher/manage_attendance/' . $date . '/' . $month . '/' . $year . '/' . $class_id . '/' . $section_id, 'refresh');
             }
     
@@ -192,7 +192,7 @@ class Teacher extends CI_Controller {
                 redirect(base_url(). 'teacher/marks/'. $page_data['exam_id'] .'/' . $page_data['class_id'] . '/' . $page_data['student_id'], 'refresh');
             }
             else{
-                $this->session->set_flashdata('error_message', get_phrase('Pleasen select something'));
+                $this->set_error_message( get_phrase('Pleasen select something'));
                 redirect(base_url(). 'teacher/marks', 'refresh');
             }
         }
@@ -212,7 +212,7 @@ class Teacher extends CI_Controller {
                     $this->db->update('mark', $page_data);  
                 }
 
-                $this->session->set_flashdata('flash_message', get_phrase('Data Updated Successfully'));
+                $this->set_flash_message( get_phrase('Data Updated Successfully'));
                 redirect(base_url(). 'teacher/marks/'. $this->input->post('exam_id') .'/' . $this->input->post('class_id') . '/' . $this->input->post('student_id'), 'refresh');
         }
 
@@ -242,7 +242,7 @@ class Teacher extends CI_Controller {
             redirect(base_url(). 'teacher/student_marksheet_subject/'. $page_data['exam_id'] .'/' . $page_data['class_id'] . '/' . $page_data['subject_id'], 'refresh');
         }
         else{
-            $this->session->set_flashdata('error_message', get_phrase('Pleasen select something'));
+            $this->set_error_message( get_phrase('Pleasen select something'));
             redirect(base_url(). 'teacher/student_marksheet_subject', 'refresh');
         }
     }
@@ -262,7 +262,7 @@ class Teacher extends CI_Controller {
                 $this->db->update('mark', $page_data);  
             }
 
-            $this->session->set_flashdata('flash_message', get_phrase('Data Updated Successfully'));
+            $this->set_flash_message( get_phrase('Data Updated Successfully'));
             redirect(base_url(). 'teacher/student_marksheet_subject/'. $this->input->post('exam_id') .'/' . $this->input->post('class_id') . '/' . $this->input->post('subject_id'), 'refresh');
     }
 

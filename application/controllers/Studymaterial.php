@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Studymaterial extends CI_Controller { 
+class Studymaterial extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,20 +17,20 @@ class Studymaterial extends CI_Controller {
         if ($param1 == 'insert'){
         
         $this->material_model->inserIntoMaterial();
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+        $this->set_flash_message( get_phrase('Data successfully saved'));
         redirect(base_url(). 'studymaterial/study_material', 'refresh');
         }
         
     if($param1 == 'update'){
 
         $this->material_model->updateStudyMaterial($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'studymaterial/study_material', 'refresh');
     }
 
     if($param1 == 'delete'){
         $this->material_model->deleteFromMaterial($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+        $this->set_flash_message( get_phrase('Data successfully deleted'));
         redirect(base_url(). 'studymaterial/study_material', 'refresh');
     }
 

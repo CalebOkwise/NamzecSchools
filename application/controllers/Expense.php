@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Expense extends CI_Controller { 
+class Expense extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,7 +17,7 @@ class Expense extends CI_Controller {
     if ($param1 == 'insert'){
 
     $this->expense_model->insertExpenseCategory();
-    $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+    $this->set_flash_message( get_phrase('Data successfully saved'));
     redirect(base_url(). 'expense/expense_category', 'refresh');
     }
 
@@ -25,14 +25,14 @@ class Expense extends CI_Controller {
     if($param1 == 'update'){
 
         $this->expense_model->updateExpenseCategory($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'expense/expense_category', 'refresh');
 
     }
 
     if($param1 == 'delete'){
         $this->expense_model->deleteExpenseCategory($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+        $this->set_flash_message( get_phrase('Data successfully deleted'));
         redirect(base_url(). 'expense/expense_category', 'refresh');
 
     }
@@ -52,20 +52,20 @@ class Expense extends CI_Controller {
         if ($param1 == 'insert'){
         
         $this->expense_model->insertExpense();
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+        $this->set_flash_message( get_phrase('Data successfully saved'));
         redirect(base_url(). 'expense/expense', 'refresh');
         }
         
     if($param1 == 'update'){
 
         $this->expense_model->updateExpense($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'expense/expense', 'refresh');
     }
 
     if($param1 == 'delete'){
         $this->expense_model->deleteExpense($param2);
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully deleted'));
+        $this->set_flash_message( get_phrase('Data successfully deleted'));
         redirect(base_url(). 'expense/expense', 'refresh');
     }
 

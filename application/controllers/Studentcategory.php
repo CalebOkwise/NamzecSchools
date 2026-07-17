@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Studentcategory extends CI_Controller { 
+class Studentcategory extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,21 +17,21 @@ class Studentcategory extends CI_Controller {
     {
         if($param1 == 'create'){
             $this->student_model->createstudentCategory();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'studentcategory/studentCategory', 'refresh');
         }
 
         if($param1 == 'update')
         {
             $this->student_model->updatestudentCategory($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'studentcategory/studentCategory', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->student_model->deletestudentCategory($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'studentcategory/studentCategory', 'refresh');
 
         }

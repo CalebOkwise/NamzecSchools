@@ -31,6 +31,121 @@ class Cbt_exam_model extends CI_Model {
         return $exam_id;
     }
 
+   
+function get_published_exams_by_class($class_id){
+    $this->db->select('cbt_exams.*, subject.name as subject_name');
+    $this->db->from('cbt_exams');
+    $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
+    $this->db->where('cbt_exams.class_id', $class_id);
+    $this->db->where('cbt_exams.status', 'published');
+    return $this->db->get()->result_array();
+}
+
+function get_published_exam_for_class($exam_id, $class_id){
+    $this->db->select('cbt_exams.*, subject.name as subject_name');
+    $this->db->from('cbt_exams');
+    $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
+    $this->db->where('cbt_exams.id', $exam_id);
+    $this->db->where('cbt_exams.class_id', $class_id);
+    $this->db->where('cbt_exams.status', 'published');
+    return $this->db->get()->row_array();
+}
+
+function get_questions_by_exam($exam_id){
+    $this->db->where('exam_id', $exam_id);
+    return $this->db->get('cbt_questions')->result_array();
+}
+
+function get_mcq_options($question_id){
+    $this->db->where('question_id', $question_id);
+    $this->db->order_by('position', 'ASC');
+    return $this->db->get('mcq_options')->result_array();
+}
+
+function get_fill_blank_answer($question_id){
+    return $this->db->get_where('answers', array('question_id' => $question_id))->row_array();
+}
+
+function has_student_submitted_exam($exam_id, $student_id){
+    if (empty($exam_id) || empty($student_id)) {
+        return false;
+    }
+
+    $this->db->where('exam_id', $exam_id);
+    $this->db->where('student_id', $student_id);
+    $this->db->where('status', 'submitted');
+    return $this->db->count_all_results('exam_attempts') > 0;
+}
+
+function submit_student_answers($exam_id, $student_id, $student_answers){
+    if (empty($exam_id) || empty($student_id) || !is_array($student_answers)) {
+        return false;
+    }
+
+    $this->db->trans_start();
+
+    $attempt_data = array(
+        'exam_id'     => $exam_id,
+        'student_id'  => $student_id,
+        'score'       => 0,
+        'status'      => 'submitted',
+        'started_at'  => date('Y-m-d H:i:s'),
+        'submitted_at'=> date('Y-m-d H:i:s')
+    );
+
+    $this->db->insert('exam_attempts', $attempt_data);
+    $attempt_id = $this->db->insert_id();
+    $score = 0;
+
+    foreach ($student_answers as $question_id => $answer_value) {
+        $question = $this->db->get_where('cbt_questions', array('id' => $question_id, 'exam_id' => $exam_id))->row_array();
+        if (empty($question)) {
+            continue;
+        }
+
+        $selected_option_id = null;
+        $answer_text = trim((string) $answer_value);
+        $is_correct = false;
+
+        if ($question['question_type'] === 'mcq') {
+            $correct_option = $this->db->get_where('mcq_options', array('question_id' => $question_id, 'is_correct' => 1))->row_array();
+            if (!empty($correct_option)) {
+                $is_correct = (strcasecmp($answer_text, $correct_option['label']) === 0 || strcasecmp($answer_text, $correct_option['option_text']) === 0);
+                if ($is_correct) {
+                    $score += intval($question['marks']);
+                }
+            }
+            $answer_text = strtoupper($answer_text);
+        } else {
+            $correct_answer = $this->db->get_where('answers', array('question_id' => $question_id))->row_array();
+            if (!empty($correct_answer)) {
+                $is_correct = (strcasecmp(trim($correct_answer['correct_answer']), $answer_text) === 0);
+                if ($is_correct) {
+                    $score += intval($question['marks']);
+                }
+            }
+        }
+
+        $answer_row = array(
+            'attempt_id'        => $attempt_id,
+            'question_id'       => $question_id,
+            'selected_option_id' => $selected_option_id,
+            'answer_text'       => $answer_text,
+            'is_correct'        => $is_correct ? 1 : 0,
+            'answered_at'       => date('Y-m-d H:i:s')
+        );
+
+        $this->db->insert('student_answers', $answer_row);
+    }
+
+    $this->db->where('id', $attempt_id);
+    $this->db->update('exam_attempts', array('score' => $score));
+
+    $this->db->trans_complete();
+
+    return $this->db->trans_status();
+}
+
     /**
      * Get exam by ID
      * @param int $exam_id The exam ID
@@ -39,80 +154,6 @@ class Cbt_exam_model extends CI_Model {
     function get_exam($exam_id){
         $this->db->where('id', $exam_id);
         return $this->db->get('cbt_exams')->row_array();
-    }
-
-    /**
-     * Get published CBT exams for a class with subject details.
-     * @param int $class_id The class ID
-     * @return array Published CBT exams
-     */
-    function get_published_exams_by_class($class_id){
-        $this->db->select('cbt_exams.*, subject.name as subject_name, class.name as class_name');
-        $this->db->from('cbt_exams');
-        $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
-        $this->db->join('class', 'class.class_id = cbt_exams.class_id', 'left');
-        $this->db->where('cbt_exams.class_id', $class_id);
-        $this->db->where('cbt_exams.status', 'published');
-        $this->db->order_by('cbt_exams.start_at', 'ASC');
-        return $this->db->get()->result_array();
-    }
-
-    /**
-     * Get one published CBT exam for a class with subject details.
-     * @param int $exam_id The exam ID
-     * @param int $class_id The class ID
-     * @return array The published exam
-     */
-    function get_published_exam_for_class($exam_id, $class_id){
-        $this->db->select('cbt_exams.*, subject.name as subject_name, class.name as class_name');
-        $this->db->from('cbt_exams');
-        $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
-        $this->db->join('class', 'class.class_id = cbt_exams.class_id', 'left');
-        $this->db->where('cbt_exams.id', $exam_id);
-        $this->db->where('cbt_exams.class_id', $class_id);
-        $this->db->where('cbt_exams.status', 'published');
-        return $this->db->get()->row_array();
-    }
-    /**
-     * Get all questions for an exam.
-     * @param int $exam_id The exam ID
-     * @return array The exam questions
-     */
-    function get_questions_by_exam($exam_id){
-        $this->db->where('exam_id', $exam_id);
-        $this->db->order_by('id', 'ASC');
-        return $this->db->get('cbt_questions')->result_array();
-    }
-
-    /**
-     * Get MCQ options for a question.
-     * @param int $question_id The question ID
-     * @return array The MCQ options
-     */
-    function get_mcq_options($question_id){
-        $this->db->where('question_id', $question_id);
-        $this->db->order_by('position', 'ASC');
-        return $this->db->get('mcq_options')->result_array();
-    }
-
-    /**
-     * Get fill-in-the-blank answer for a question.
-     * @param int $question_id The question ID
-     * @return array|null The answer record or null
-     */
-    function get_fill_blank_answer($question_id){
-        $this->db->where('question_id', $question_id);
-        return $this->db->get('answers')->row_array();
-    }
-
-    /**
-     * Update exam publication status.
-     * @param int $exam_id The exam ID
-     * @param string $status Either draft or published
-     */
-    function publish_exam($exam_id, $status = 'published'){
-        $this->db->where('id', $exam_id);
-        $this->db->update('cbt_exams', array('status' => $status));
     }
 
     /**
@@ -223,34 +264,6 @@ class Cbt_exam_model extends CI_Model {
         return $saved_count;
     }
     /**
-     * Delete a question that belongs to a specific exam.
-     * @param int $exam_id The exam ID
-     * @param int $question_id The question ID
-     * @return bool Whether a question was deleted
-     */
-    function delete_question($exam_id, $question_id){
-        $question = $this->db->get_where('cbt_questions', array(
-            'id'      => $question_id,
-            'exam_id' => $exam_id
-        ))->row_array();
-
-        if (empty($question)) {
-            return false;
-        }
-
-        $this->db->where('question_id', $question_id);
-        $this->db->delete('mcq_options');
-
-        $this->db->where('question_id', $question_id);
-        $this->db->delete('answers');
-
-        $this->db->where('id', $question_id);
-        $this->db->where('exam_id', $exam_id);
-        $this->db->delete('cbt_questions');
-
-        return ($this->db->affected_rows() > 0);
-    }
-    /**
      * Delete an exam
      * @param int $exam_id The exam ID
      */
@@ -290,5 +303,4 @@ class Cbt_exam_model extends CI_Model {
     }
 	
 }
-
 

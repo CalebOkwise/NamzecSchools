@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Emailmessage extends CI_Controller { 
+class Emailmessage extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -15,7 +15,7 @@ class Emailmessage extends CI_Controller {
     function sendEmailMessage($param1 = null, $param2 = null, $param3 = null){
         if($param1 == 'create'){
             $this->send_email_message_model->sendMessageEmail();
-            $this->session->set_flashdata('flash_message', get_phrase('Email sent successfully'));
+            $this->set_flash_message( get_phrase('Email sent successfully'));
             redirect(base_url(). 'emailmessage/sendEmailMessage', 'refresh');
         }
 

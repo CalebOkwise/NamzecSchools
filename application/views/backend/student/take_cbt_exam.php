@@ -43,7 +43,8 @@ $is_available = ($start_at && $end_at && $now >= $start_at && $now <= $end_at);
                         </div>
                     </div>
 
-                    <form class="form-horizontal">
+                    <form method="POST" action="<?php echo base_url('student/submit_cbt_answers/'.$exam['id']); ?>" class="form-horizontal">
+                        <input type="hidden" name="exam_id" value="<?php echo html_escape($exam['id']); ?>">
                         <?php if (!empty($questions)): ?>
                             <?php foreach ($questions as $index => $question): ?>
                                 <div class="panel panel-default">
@@ -56,9 +57,10 @@ $is_available = ($start_at && $end_at && $now >= $start_at && $now <= $end_at);
                                         <?php if ($question['question_type'] == 'mcq'): ?>
                                             <?php if (!empty($question['options'])): ?>
                                                 <?php foreach ($question['options'] as $option): ?>
+                                                    <?php $option_id = 'answer_'.$question['id'].'_'.str_replace(' ', '_', $option['label']); ?>
                                                     <div class="radio">
-                                                        <label>
-                                                            <input type="radio" name="answer[<?php echo $question['id']; ?>]" value="<?php echo html_escape($option['label']); ?>">
+                                                        <input type="radio" id="<?php echo html_escape($option_id); ?>" name="answer[<?php echo $question['id']; ?>]" value="<?php echo html_escape($option['label']); ?>">
+                                                        <label for="<?php echo html_escape($option_id); ?>">
                                                             <strong><?php echo html_escape($option['label']); ?>.</strong> <?php echo html_escape($option['option_text']); ?>
                                                         </label>
                                                     </div>
@@ -84,7 +86,7 @@ $is_available = ($start_at && $end_at && $now >= $start_at && $now <= $end_at);
                         <?php endif; ?>
 
                         <div class="text-right">
-                            <button type="button" class="btn btn-primary" disabled><?php echo get_phrase('Submit Answers'); ?></button>
+                            <button type="submit" class="btn btn-primary"><?php echo get_phrase('Submit Answers'); ?></button>
                         </div>
                     </form>
                 </div>

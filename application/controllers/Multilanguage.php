@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 
 
-class Multilanguage extends CI_Controller
+class Multilanguage extends MY_Controller
 {
 	
 	function __construct()

@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Socialcategory extends CI_Controller { 
+class Socialcategory extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -17,21 +17,21 @@ class Socialcategory extends CI_Controller {
     {
         if($param1 == 'create'){
             $this->social_model->createSocialCategory();
-            $this->session->set_flashdata('flash_message', get_phrase('Data saved successfully'));
+            $this->set_flash_message( get_phrase('Data saved successfully'));
             redirect(base_url(). 'socialcategory/socialCategory', 'refresh');
         }
 
         if($param1 == 'update')
         {
             $this->social_model->updateSocialCategory($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data updated successfully'));
+            $this->set_flash_message( get_phrase('Data updated successfully'));
             redirect(base_url(). 'socialcategory/socialCategory', 'refresh');
         }
 
 
         if($param1 == 'delete'){
             $this->social_model->deleteSocialCategory($param2);
-            $this->session->set_flashdata('flash_message', get_phrase('Data deleted successfully'));
+            $this->set_flash_message( get_phrase('Data deleted successfully'));
             redirect(base_url(). 'socialcategory/socialCategory', 'refresh');
 
         }

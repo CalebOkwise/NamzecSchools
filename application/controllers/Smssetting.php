@@ -2,7 +2,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Smssetting extends CI_Controller { 
+class Smssetting extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -16,19 +16,19 @@ class Smssetting extends CI_Controller {
 
     if ($param1 == 'clickatell'){
     $this->sms_model->UpdateClickattelSms();
-    $this->session->set_flashdata('flash_message', get_phrase('Data successfully saved'));
+    $this->set_flash_message( get_phrase('Data successfully saved'));
     redirect(base_url(). 'smssetting/sms_settings', 'refresh');
     }
 
     if($param1 == 'msg91'){
         $this->sms_model->UpdateMsg91lSms();
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'smssetting/sms_settings', 'refresh');
     }
 
     if($param1 == 'sms_active'){
         $this->sms_model->setSmsGatewayActive();
-        $this->session->set_flashdata('flash_message', get_phrase('Data successfully updated'));
+        $this->set_flash_message( get_phrase('Data successfully updated'));
         redirect(base_url(). 'smssetting/sms_settings', 'refresh');
     }
     

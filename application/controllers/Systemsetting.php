@@ -2,7 +2,7 @@
 
 
 
-class Systemsetting extends CI_Controller { 
+class Systemsetting extends MY_Controller { 
 
     function __construct() {
         parent::__construct();
@@ -32,14 +32,14 @@ class Systemsetting extends CI_Controller {
            
         $this->crud_model->update_settings();
 
-        $this->session->set_flashdata('flash_message', get_phrase('Data Updated'));
+        $this->set_flash_message( get_phrase('Data Updated'));
         redirect(base_url(). 'systemsetting/system_settings', 'refresh');
     }
 
     if ($param1 == 'upload_logo') 
 	{
        $this->crud_model->system_logo();
-       $this->session->set_flashdata('flash_message', get_phrase('settings_updated'));
+       $this->set_flash_message( get_phrase('settings_updated'));
        redirect(base_url() . 'systemsetting/system_settings', 'refresh');
     }
 
@@ -47,7 +47,7 @@ class Systemsetting extends CI_Controller {
     if ($param1 == 'themeSettings') 
 	{
         $this->crud_model->update_theme();
-        $this->session->set_flashdata('flash_message', get_phrase('Theme Selected'));
+        $this->set_flash_message( get_phrase('Theme Selected'));
         redirect(base_url() . 'systemsetting/system_settings', 'refresh');
     }
 
