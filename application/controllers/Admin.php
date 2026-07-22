@@ -1190,6 +1190,7 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
         $this->set_flash_message( get_phrase('Exam saved successfully'));
         redirect(base_url(). 'admin/cbt/add_questions/' . $exam_id, 'refresh');
     }
+    
     if ($param1 == 'save_questions') {
         $exam_id = intval($param2);
         $saved_questions = $this->cbt_exam_model->save_questions($exam_id);
@@ -1202,6 +1203,7 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
 
         redirect(base_url(). 'admin/cbt/add_questions/' . $exam_id, 'refresh');
     }
+    
     if ($param1 == 'add_questions') {
         $exam_id = intval($param2);
         if (empty($exam_id)) {
@@ -1218,17 +1220,134 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
         $page_data['exam']          = $this->cbt_exam_model->get_exam($exam_id);
         $this->load->view('backend/index', $page_data);
     }
+    if ($param1 == 'update_exam') {
+        $exam_id = intval($param2);
+        if (empty($exam_id)) {
+            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
+        }
+
+        $this->cbt_exam_model->update_exam($exam_id);
+        $this->set_flash_message(get_phrase('Exam updated successfully'));
+        redirect(base_url(). 'admin/cbt/edit_exam/' . $exam_id, 'refresh');
+    }
+    
     if ($param1 == 'edit_exam') {
+        
+        $exam_id = intval($param2);
+        
+        if (empty($exam_id)) {
+            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
+        }
+
+        $exam = $this->cbt_exam_model->get_exam($exam_id);
+        
+        if (empty($exam)) {
+            $this->set_error_message(get_phrase('Exam not found'));
+            redirect(base_url(). 'admin/cbtDashboard', 'refresh');
+        }
+ 
         $page_data['page_name']     = 'edit_cbtexam';
         $page_data['page_title']    = get_phrase('Edit Exam');
-        $this->load->view('backend/index', $page_data);
+        $page_data['exam']          = $exam;
+        $page_data['classes']       = $this->db->select('class_id, name')->from('class')->order_by('name','ASC')->get()->result_array();
+        $page_data['subjects']      = $this->db->get_where('subject', array('class_id' => $exam['class_id']))->result_array();
+        
+        $this->load->view('backend/index', $page_data); 
     }
 
+   /**  I AM REPLACING THE CODE
+    * if ($param1 == 'review_publish') {
+      *  $page_data['page_name']     = 'review_publish';
+       * $page_data['page_title']    = get_phrase('Review & Publish');
+       * $this->load->view('backend/index', $page_data);
+        * }
+        */
+
+    
     if ($param1 == 'review_publish') {
-        $page_data['page_name']     = 'review_publish';
-        $page_data['page_title']    = get_phrase('Review & Publish');
+        
+        $exam_id = intval($param2);
+        
+        if (empty($exam_id)) {
+        redirect(base_url() . 'admin/cbtDashboard', 'refresh');
+        }
+
+        $exam = $this->cbt_exam_model->get_exam_with_details($exam_id);
+        
+        if (empty($exam)) {
+        $this->set_error_message(get_phrase('Exam not found'));
+        redirect(base_url() . 'admin/cbtDashboard', 'refresh');
+        }
+
+        $questions = $this->cbt_exam_model->get_questions_by_exam($exam_id);
+        $total_questions = count($questions);
+        $mcq_count = 0;
+        $fill_blank_count = 0;
+        $total_marks = 0;
+
+        foreach ($questions as &$question) {
+        $total_marks += intval($question['marks']);
+
+        if ($question['question_type'] === 'mcq') {
+            $mcq_count++;
+            $question['options'] = $this->cbt_exam_model->get_mcq_options($question['id']);
+        } else {
+            $fill_blank_count++;
+            $question['fill_blank_answer'] = $this->cbt_exam_model->get_fill_blank_answer($question['id']);
+        }
+        }
+    
+        unset($question);
+
+        $page_data['page_name']       = 'review_publish';
+        $page_data['page_title']      = get_phrase('Review & Publish');
+        $page_data['exam']            = $exam;
+        $page_data['questions']       = $questions;
+        $page_data['total_questions'] = $total_questions;
+        $page_data['mcq_count']       = $mcq_count;
+        $page_data['fill_blank_count'] = $fill_blank_count;
+        $page_data['total_marks']     = $total_marks;
+        $page_data['exam_id']         = $exam_id;
         $this->load->view('backend/index', $page_data);
+
     }
+
+    if ($param1 == 'publish_exam') {
+    
+    $exam_id = intval($param2);
+    
+    if (empty($exam_id)) {
+        redirect(base_url() . 'admin/cbtDashboard', 'refresh');
+    }
+
+    $exam = $this->cbt_exam_model->get_exam($exam_id);
+    
+    if (empty($exam)) {
+        $this->set_error_message(get_phrase('Exam not found'));
+        redirect(base_url() . 'admin/cbtDashboard', 'refresh');
+    }
+
+    $action = $this->input->post('action');
+    $status = ($action === 'publish') ? 'published' : 'draft';
+
+    if ($status === 'published') {
+        $questions = $this->cbt_exam_model->get_questions_by_exam($exam_id);
+        if (empty($questions)) {
+            $this->set_error_message(get_phrase('Cannot publish exam without questions'));
+            redirect(base_url() . 'admin/cbt/review_publish/' . $exam_id, 'refresh');
+        }
+    }
+
+    $this->cbt_exam_model->update_exam_status($exam_id, $status);
+    $this->set_flash_message(
+        $status === 'published'
+            ? get_phrase('Exam published successfully')
+            : get_phrase('Exam saved as draft')
+    );
+    
+    redirect(base_url() . 'admin/cbt/review_publish/' . $exam_id, 'refresh');
+}
+
 }
 
 function create_cbtexam(){

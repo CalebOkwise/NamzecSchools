@@ -31,15 +31,17 @@ class Cbt_exam_model extends CI_Model {
         return $exam_id;
     }
 
+
+
    
-function get_published_exams_by_class($class_id){
+    function get_published_exams_by_class($class_id){
     $this->db->select('cbt_exams.*, subject.name as subject_name');
     $this->db->from('cbt_exams');
     $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
     $this->db->where('cbt_exams.class_id', $class_id);
     $this->db->where('cbt_exams.status', 'published');
     return $this->db->get()->result_array();
-}
+    }
 
 function get_published_exam_for_class($exam_id, $class_id){
     $this->db->select('cbt_exams.*, subject.name as subject_name');
@@ -146,6 +148,22 @@ function submit_student_answers($exam_id, $student_id, $student_answers){
     return $this->db->trans_status();
 }
 
+
+function get_exam_with_details($exam_id){
+    $this->db->select('cbt_exams.*, class.name as class_name, subject.name as subject_name');
+    $this->db->from('cbt_exams');
+    $this->db->join('class', 'class.class_id = cbt_exams.class_id', 'left');
+    $this->db->join('subject', 'subject.subject_id = cbt_exams.subject_id', 'left');
+    $this->db->where('cbt_exams.id', $exam_id);
+    return $this->db->get()->row_array();
+}
+
+function update_exam_status($exam_id, $status){
+    $status = in_array($status, array('draft', 'published')) ? $status : 'draft';
+    $this->db->where('id', $exam_id);
+    $this->db->update('cbt_exams', array('status' => $status));
+}
+
     /**
      * Get exam by ID
      * @param int $exam_id The exam ID
@@ -153,8 +171,7 @@ function submit_student_answers($exam_id, $student_id, $student_answers){
      */
     function get_exam($exam_id){
         $this->db->where('id', $exam_id);
-        return $this->db->get('cbt_exams')->row_array();
-    }
+        return $this->db->get('cbt_exams')->row_array(); }
 
     /**
      * Update an exam
