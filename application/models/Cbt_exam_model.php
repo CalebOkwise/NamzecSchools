@@ -67,6 +67,17 @@ function get_mcq_options($question_id){
 function get_fill_blank_answer($question_id){
     return $this->db->get_where('answers', array('question_id' => $question_id))->row_array();
 }
+function get_question_for_exam($exam_id, $question_id){ return $this->db->get_where('cbt_questions', array('id' => $question_id, 'exam_id' => $exam_id))->row_array(); }
+function update_question($exam_id, $question_id){
+    if (empty($this->get_question_for_exam($exam_id, $question_id))) return false;
+    $question_text=trim((string)$this->input->post('question_text')); $question_type=$this->input->post('question_type') === 'fill_blank' ? 'fill_blank' : 'mcq'; $blank_answer=trim((string)$this->input->post('blank_answer')); $correct_answer=strtoupper(trim((string)$this->input->post('correct_answer')));
+    $options=array('A'=>trim((string)$this->input->post('option_a')),'B'=>trim((string)$this->input->post('option_b')),'C'=>trim((string)$this->input->post('option_c')),'D'=>trim((string)$this->input->post('option_d')));
+    if ($question_text === '' || ($question_type === 'fill_blank' && $blank_answer === '') || ($question_type === 'mcq' && ($correct_answer === '' || empty($options[$correct_answer])))) return false;
+    $this->db->trans_start(); $this->db->where('id',$question_id)->where('exam_id',$exam_id)->update('cbt_questions',array('question_text'=>html_escape($question_text),'question_type'=>$question_type)); $this->db->where('question_id',$question_id)->delete('mcq_options'); $this->db->where('question_id',$question_id)->delete('answers');
+    if ($question_type === 'mcq') { $position=1; foreach($options as $label=>$option_text){ if($option_text !== '') $this->db->insert('mcq_options',array('question_id'=>$question_id,'option_text'=>html_escape($option_text),'is_correct'=>$correct_answer === $label ? 1 : 0,'label'=>$label,'position'=>$position)); $position++; } } else { $this->db->insert('answers',array('question_id'=>$question_id,'correct_answer'=>html_escape($blank_answer))); }
+    $this->db->trans_complete(); return $this->db->trans_status();
+}
+function delete_question($exam_id, $question_id){ if(empty($this->get_question_for_exam($exam_id,$question_id))) return false; $this->db->trans_start(); $this->db->where('question_id',$question_id)->delete('mcq_options'); $this->db->where('question_id',$question_id)->delete('answers'); $this->db->where('id',$question_id)->where('exam_id',$exam_id)->delete('cbt_questions'); $this->db->trans_complete(); return $this->db->trans_status(); }
 
 function has_student_submitted_exam($exam_id, $student_id){
     if (empty($exam_id) || empty($student_id)) {

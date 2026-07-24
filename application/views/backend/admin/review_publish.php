@@ -93,10 +93,13 @@
                             <?php foreach ($questions as $index => $question): ?>
                                 <div class="question-preview panel panel-default m-b-20">
                                     <div class="panel-heading bg-light">
-                                        <h5 class="m-0">
-                                            <strong><?php echo get_phrase('Question #') . ($index + 1); ?></strong>
-                                            - <?php echo $question['question_type'] === 'mcq' ? get_phrase('Multiple Choice') : get_phrase('Fill in the Blank'); ?>
-                                        </h5>
+                                        <div class="clearfix">
+                                            <h5 class="m-0 pull-left"><strong><?php echo get_phrase('Question #') . ($index + 1); ?></strong> - <?php echo $question['question_type'] === 'mcq' ? get_phrase('Multiple Choice') : get_phrase('Fill in the Blank'); ?></h5>
+                                            <div class="pull-right question-actions">
+                                                <a href="<?php echo base_url(); ?>admin/cbt/edit_question/<?php echo intval($exam_id); ?>/<?php echo intval($question['id']); ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>&nbsp;<?php echo get_phrase('Edit'); ?></a>
+                                                <form method="POST" action="<?php echo base_url(); ?>admin/cbt/delete_question/<?php echo intval($exam_id); ?>/<?php echo intval($question['id']); ?>" class="delete-question-form"><button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>&nbsp;<?php echo get_phrase('Delete'); ?></button></form>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="panel-body">
                                         <div class="form-group">
@@ -203,6 +206,8 @@
         margin: 0;
     }
 
+    .question-actions .delete-question-form { display: inline-block; margin-left: 5px; }
+
     .m-t-10 {
         margin-top: 10px;
     }
@@ -248,6 +253,8 @@
         margin: 0;
     }
 
+    .question-actions .delete-question-form { display: inline-block; margin-left: 5px; }
+
     .m-t-10 {
         margin-top: 10px;
     }
@@ -264,3 +271,9 @@
         text-align: center;
     }
 </style>
+
+<script type="text/javascript">
+    $(document).on('submit', '.delete-question-form', function () {
+        return confirm('<?php echo get_phrase('Are you sure you want to delete this question?'); ?>');
+    });
+</script>

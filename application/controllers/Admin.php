@@ -578,6 +578,7 @@ class Admin extends MY_Controller {
     }
 
     function payroll_selector()
+    
     {
         $department_id  = $this->input->post('department_id');
         $employee_id    = $this->input->post('employee_id');
@@ -588,6 +589,7 @@ class Admin extends MY_Controller {
     }
     
     function payroll_view($department_id = null, $employee_id = null, $month = null, $year = null)
+    
     {
         $page_data['department_id'] = $department_id;
         $page_data['employee_id']   = $employee_id;
@@ -672,6 +674,7 @@ class Admin extends MY_Controller {
 
 
     /***********  The function manages Section  ***********************/
+    
     function section ($param1 = null, $param2 = null, $param3 = null){
 
         if($param1 == 'create'){
@@ -1312,6 +1315,9 @@ function cbt($param1 = null, $param2 = null, $param3 = null){
 
     }
 
+    if ($param1 == 'edit_question') { $exam_id=intval($param2); $question_id=intval($param3); $exam=$this->cbt_exam_model->get_exam($exam_id); $question=$this->cbt_exam_model->get_question_for_exam($exam_id,$question_id); if(empty($exam)||empty($question)){ $this->set_error_message(get_phrase('Question not found')); redirect(base_url().'admin/cbt/review_publish/'.$exam_id,'refresh'); } $page_data['page_name']='edit_cbt_question'; $page_data['page_title']=get_phrase('Edit Question'); $page_data['exam']=$exam; $page_data['exam_id']=$exam_id; $page_data['question']=$question; $page_data['options']=$question['question_type']==='mcq'?$this->cbt_exam_model->get_mcq_options($question_id):array(); $page_data['fill_blank_answer']=$question['question_type']==='fill_blank'?$this->cbt_exam_model->get_fill_blank_answer($question_id):array(); $this->load->view('backend/index',$page_data); }
+    if ($param1 == 'update_question') { $exam_id=intval($param2); $updated=$this->cbt_exam_model->update_question($exam_id,intval($param3)); $updated?$this->set_flash_message(get_phrase('Question updated successfully')):$this->set_error_message(get_phrase('Unable to update question. Please complete all required answer fields.')); redirect(base_url().'admin/cbt/review_publish/'.$exam_id,'refresh'); }
+    if ($param1 == 'delete_question') { $exam_id=intval($param2); if(strtoupper($this->input->method()) !== 'POST') redirect(base_url().'admin/cbt/review_publish/'.$exam_id,'refresh'); $deleted=$this->cbt_exam_model->delete_question($exam_id,intval($param3)); $deleted?$this->set_flash_message(get_phrase('Question deleted successfully')):$this->set_error_message(get_phrase('Unable to delete question')); redirect(base_url().'admin/cbt/review_publish/'.$exam_id,'refresh'); }
     if ($param1 == 'publish_exam') {
     
     $exam_id = intval($param2);
