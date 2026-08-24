@@ -131,7 +131,7 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                     </div>
 					
         <div class="form-group login-options">
-          <div class="col-md-12">
+          <div class="col-md-12" style="display: flex; justify-content: space-between; width: 100%;">
             <div class="checkbox checkbox-primary pull-left p-t-0">
               <input id="checkbox-signup" type="checkbox">
               <label for="checkbox-signup"> <?php echo get_phrase('remember_me');?> </label>
@@ -152,7 +152,7 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                     </div>
                  <?php echo form_close();?>
           <div class="secure-access"><span>Secure Access</span><span class="secure-icon"><i class="fa fa-shield" aria-hidden="true"></i></span></div>
-         <div class="promo-card"><span class="promo-icon"><i class="fa fa-shield" aria-hidden="true"></i></span><div><h3>Our School, Smarter</h3><p>Students, staff, academics and more — all in one place.</p></div></div> 
+         <div class="promo-card"><span class="promo-icon"><i class="fa fa-shield" aria-hidden="true"></i></span><div><h3>Our School Now Smarter</h3><p>Students, staff, academics and more — all in one place.</p></div></div> 
         			
             	<form method="post" role="form" id="recoverform" class="form-horizontal form-material"  action="<?php echo base_url();?>login/reset_password">
                 <input type="email" name="email" class="form-control" placeholder="<?php echo get_phrase('email');?>" style="width:100%" required>
